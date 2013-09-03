@@ -5,11 +5,26 @@ gem 'rails', '3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
+gem 'mysql2'
 
-# API
 gem 'grape'
 gem 'grape-entity'
+
+gem 'rest-client'
+
+# gem 'devise'
+
+gem 'sunspot_rails'
+gem 'sunspot_solr'
+
+gem 'progress_bar'
+
+# 分页
+gem 'will_paginate'
+
+gem "anjlab-bootstrap-rails", :git => "git://github.com/anjlab/bootstrap-rails.git", :require => "bootstrap-rails"
+gem 'bootstrap-will_paginate', '0.0.3'
+gem "bootstrap_helper", "1.4.1"
 
 group :development do
   gem 'quiet_assets'
@@ -37,7 +52,9 @@ end
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt-ruby', '~> 3.0.0'
+# 
+gem 'warden'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'

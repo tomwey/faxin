@@ -8,4 +8,48 @@ class Law < ActiveRecord::Base
   belongs_to :law_content
   
   delegate :content, to: :law_content, :allow_nil => true
+  delegate :name, :to => :law_type, :allow_nil => true, :prefix => true
+  
+  scope :recent, order('pub_date desc')
+  
+  searchable do
+    text :title, :boost => 5, :stored => true
+    text :content, :boost => 3
+    time :pub_date
+    string :publish_date
+    
+    integer :law_type_id
+    integer :location_id
+    integer :law_content_id
+  end
+  
+  def publish_date
+    pub_date.to_time.strftime("%Y-%m-%d")
+  end
+  
+  
+  # default_scope order('pub_date desc')
+  
+  def self.latest(type_id, id, loc_id)
+    if type_id == 0
+      where('law_content_id > ?', id).order('pub_date desc')
+    elsif loc_id == 0
+      where('law_content_id > ? and law_type_id = ?', id, type_id).order('pub_date desc')
+    else
+      where('law_content_id > ? and law_type_id = ? and location_id = ?', id, type_id, loc_id).order('pub_date desc')
+    end
+    
+  end
+  
+  def self.more(type_id, id, loc_id)
+    if type_id == 0
+      where('law_content_id < ?', id).order('pub_date desc')
+    elsif loc_id == 0
+      where('law_content_id < ? and law_type_id = ?', id, type_id).order('pub_date desc')
+    else
+      where('law_content_id < ? and law_type_id = ? and location_id = ?', id, type_id, loc_id).order('pub_date desc')
+    end
+    
+  end
+  
 end

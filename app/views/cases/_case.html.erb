@@ -1,0 +1,12 @@
+<tr>
+  <td><%= case.id %></td>
+  <td><%= link_to truncate(case.title, length: 50), case %></td>
+  <td><%= case.anyou_name %></td>
+  <td><%= case.court %></td>
+  <td><%= case.case_type %></td>
+  <td><%= case.created_at %></td>
+  <td>
+      <%= link_to 'Edit', edit_case_path(case), class: "btn btn-mini" %> 
+      <%= link_to 'Delete', case_path(case), :method => :delete, confirm: "你确定要删除吗？", class: "btn btn-danger btn-mini" %>
+  </td>
+</tr>

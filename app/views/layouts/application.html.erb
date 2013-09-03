@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Faxin</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <title>法信 - 专业的律师工具平台</title>
+  <%= stylesheet_link_tag    "front" %>
+  <%= yield :styles %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <%= link_to("法信", root_path, :class => "brand")%>
+        <ul class="nav">
+          <li><%= link_to "首页",  root_path %></li>
+          <li><%= link_to "类别",  law_types_path %></li>
+          <li><%= link_to "法律",  laws_path %></li>
+          <li><%= link_to "判例",  cases_path %></li>
+          <li><%= link_to "案由",  anyous_path %></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <%= notice_message %>
+    <%= yield %>
+  </div>
+  
+  
+  
+  
+  <%= javascript_include_tag "application" %>
+  <%= yield :scripts %>
+
 
 </body>
 </html>

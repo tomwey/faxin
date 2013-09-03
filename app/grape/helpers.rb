@@ -2,6 +2,15 @@
 module Faxin
   module APIHelpers
     
+    def warden
+      env['warden']
+    end
+    
+    def current_user
+      token = params[:token]
+      @current_user ||= User.where(:private_token => token).first
+    end
+    
     def max_page_size
       100
     end
@@ -32,9 +41,10 @@ module Faxin
       { code: code, message: message, data: [] }
     end
     
-    # def authenticate!
-    #   api_key = ApiKey.find_by_access_token(params[:token])
-    #     error!(render_error_json(401, "Token不正确"), 401) unless api_key
-    # end
+    def authenticate!
+      user = current_user
+      error!(render_error_json(401, "Token无效"), 401) unless user
+      return user
+    end
   end
 end

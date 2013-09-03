@@ -1,0 +1,24 @@
+<div class="box">
+  <div class="row-fluid">
+    <div class="span8"><h2>法律列表</h2></div>
+    <div class="span4"><%= link_to '新建法律', new_law_path, class: "btn btn-primary pull-right" %>
+    </div>
+  </div>
+  <%= render 'laws/menu' %>
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>标题</th>
+      <th>所属类别</th>
+      <th>发布日期</th>
+      <th>生效日期</th>
+      <th>发布部门</th>
+      <th>#</th>
+    </tr>
+  
+    <%= render @laws %>
+  
+  </table>
+  <%= will_paginate @laws %>
+</div>
+

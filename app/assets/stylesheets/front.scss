@@ -1,0 +1,47 @@
+/*
+ *= require application
+ *= require_self
+ */
+
+body {
+  padding-top: 60px;
+}
+
+.box {
+  margin:0;
+  padding:0;
+  border: 1px solid rgb(240,240,240);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  background: rgb(247,247,247);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 16px;
+  margin:0;
+  padding:0;
+}
+
+.submenu {
+  text-align:right;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 12px;
+  ul { margin:0; padding:0;}
+  li {
+    display:inline;
+    margin: 0 5px;
+    
+  }
+  li.active {
+    a {
+      color: #333;
+      border-bottom: 1px dotted #ddd;
+      &:hover { text-decoration: none; }
+    }
+  }
+
+}

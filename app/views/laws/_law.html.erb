@@ -1,0 +1,12 @@
+<tr id="<%= dom_id law %>">
+  <td><%= law.id %></td>
+  <td><%= link_to truncate(law.title, length: 10), law %></td>
+  <td><%= law.law_type_name %></td>
+  <td><%= law.pub_date %></td>
+  <td><%= law.impl_date %></td>
+  <td><%= truncate(law.pub_dept, length: 20) %></td>
+  <td>
+      <%= link_to 'Edit', edit_law_path(law), class: "btn btn-mini" %> 
+      <%= link_to 'Delete', law_path(law), :method => :delete, confirm: "你确定要删除吗？", class: "btn btn-danger btn-mini" %>
+  </td>
+</tr>
