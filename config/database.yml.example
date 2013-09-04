@@ -1,0 +1,11 @@
+defaults: &defaults
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: root
+  password: ''
+  host: localhost 
+
+production:
+  <<: *defaults
+  database: 
