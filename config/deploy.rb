@@ -17,7 +17,7 @@ ssh_options[:forward_agent] = true
 
 # 保留5个最新的版本
 after "deploy", "deploy:cleanup"
-after "deploy:cleanup", "deploy:remote_rake"
+# after "deploy:cleanup", "deploy:remote_rake"
 
 namespace :deploy do
   %w[start stop restart].each do |command|
