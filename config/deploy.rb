@@ -56,31 +56,38 @@ namespace :deploy do
 end
 
 # 全文检索
-namespace :deploy do
-  task :setup_solr_data_dir do
-    run "mkdir -p #{shared_path}/solr/data"
-  end
-end
- 
 namespace :solr do
   desc "start solr"
-  task :start, :roles => :app, :except => { :no_release => true } do 
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr start --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+  task :start, :roles => :app, :except => { :no_release => true } do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:start"
   end
+
   desc "stop solr"
-  task :stop, :roles => :app, :except => { :no_release => true } do 
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec sunspot-solr stop --port=8983 --data-directory=#{shared_path}/solr/data --pid-dir=#{shared_path}/pids"
+  task :stop, :roles => :app, :except => { :no_release => true } do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:stop"
   end
+
   desc "reindex the whole database"
   task :reindex, :roles => :app do
     stop
-    run "rm -rf #{shared_path}/solr/data"
+    run "rm -rf #{shared_path}/solr/data/*"
     start
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
+    puts "You need to run this yourself now:"
+    puts "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
+  end
+
+  desc "Symlink in-progress deployment to a shared Solr index"
+  task :symlink, :except => { :no_release => true } do
+    run "ln -s #{shared_path}/solr/conf/ #{release_path}/solr/conf"
+    run "ln -s #{shared_path}/solr/data/ #{release_path}/solr/data"
+    run "ln -s #{shared_path}/solr/pids/ #{release_path}/solr/pids"
   end
 end
- 
-after 'deploy:setup', 'deploy:setup_solr_data_dir'
+
+after "deploy:update_code", "solr:symlink"
+
+#  
+# after 'deploy:setup', 'deploy:setup_solr_data_dir'
 
 # namespace :remote_rake do
 #   task :invoke do
