@@ -78,9 +78,9 @@ namespace :solr do
 
   desc "Symlink in-progress deployment to a shared Solr index"
   task :symlink, :except => { :no_release => true } do
-    run "ln -s #{shared_path}/solr/conf #{release_path}/solr/conf"
-    run "ln -s #{shared_path}/solr/data/ #{release_path}/solr/data"
-    run "ln -s #{shared_path}/solr/pids/ #{release_path}/solr/pids"
+    # run "ln -s #{shared_path}/solr/conf #{release_path}/solr/conf"
+    run "ln -nfs #{shared_path}/solr #{current_path}/solr"
+    # run "ln -s #{shared_path}/solr/pids/ #{release_path}/solr/pids"
   end
 end
 
