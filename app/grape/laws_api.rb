@@ -88,7 +88,7 @@ module Faxin
         
         id = params[:id].to_i
         @content = LawContent.includes(:law).find_by_id(id)
-        { code: 200, message: 'ok', data: { law_info: @content.law.as_json(:only => [:doc_id, :pub_dept, :impl_date]),
+        { code: 200, message: 'ok', data: { law_info: @content.law.as_json(:only => [:summary, :pub_dept, :impl_date]),
             body: @content.content} }
       end
       

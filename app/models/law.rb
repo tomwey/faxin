@@ -10,7 +10,7 @@ class Law < ActiveRecord::Base
   delegate :content, to: :law_content, :allow_nil => true
   delegate :name, :to => :law_type, :allow_nil => true, :prefix => true
   
-  scope :recent, order('pub_date desc')
+  scope :recent, order('law_content_id desc')
   
   searchable do
     text :title, :boost => 5, :stored => true
@@ -32,22 +32,22 @@ class Law < ActiveRecord::Base
   
   def self.latest(type_id, id, loc_id)
     if type_id == 0
-      where('law_content_id > ?', id).order('pub_date desc')
+      where('law_content_id > ?', id).order('law_content_id desc')
     elsif loc_id == 0
-      where('law_content_id > ? and law_type_id = ?', id, type_id).order('pub_date desc')
+      where('law_content_id > ? and law_type_id = ?', id, type_id).order('law_content_id desc')
     else
-      where('law_content_id > ? and law_type_id = ? and location_id = ?', id, type_id, loc_id).order('pub_date desc')
+      where('law_content_id > ? and law_type_id = ? and location_id = ?', id, type_id, loc_id).order('law_content_id desc')
     end
     
   end
   
   def self.more(type_id, id, loc_id)
     if type_id == 0
-      where('law_content_id < ?', id).order('pub_date desc')
+      where('law_content_id < ?', id).order('law_content_id desc')
     elsif loc_id == 0
-      where('law_content_id < ? and law_type_id = ?', id, type_id).order('pub_date desc')
+      where('law_content_id < ? and law_type_id = ?', id, type_id).order('law_content_id desc')
     else
-      where('law_content_id < ? and law_type_id = ? and location_id = ?', id, type_id, loc_id).order('pub_date desc')
+      where('law_content_id < ? and law_type_id = ? and location_id = ?', id, type_id, loc_id).order('law_content_id desc')
     end
     
   end
