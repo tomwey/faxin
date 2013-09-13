@@ -15,8 +15,8 @@ class Law < ActiveRecord::Base
   searchable do
     text :title, :boost => 5, :stored => true
     text :content, :boost => 3
-    time :pub_date
-    string :publish_date
+    # time :pub_date
+    # string :publish_date
     
     integer :law_type_id
     integer :location_id
