@@ -24,7 +24,9 @@ class Law < ActiveRecord::Base
   end
   
   def publish_date
-    pub_date.to_time.strftime("%Y-%m-%d")
+    if pub_date
+      pub_date.to_time.strftime("%Y-%m-%d")
+    end
   end
   
   

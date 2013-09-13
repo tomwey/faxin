@@ -27,7 +27,9 @@ class Case < ActiveRecord::Base
   end
   
   def publish_date
-    created_at.to_time.strftime('%Y-%m-%d')
+    if created_at
+      created_at.to_time.strftime('%Y-%m-%d')
+    end
   end
   
   default_scope order('created_at desc')
