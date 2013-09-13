@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130831145318) do
+ActiveRecord::Schema.define(:version => 20130912160156) do
 
   create_table "anyous", :force => true do |t|
     t.string   "name"
@@ -42,6 +42,20 @@ ActiveRecord::Schema.define(:version => 20130831145318) do
 
   add_index "cases", ["anyou_id"], :name => "index_cases_on_anyou_id"
   add_index "cases", ["case_content_id"], :name => "index_cases_on_case_content_id", :unique => true
+
+  create_table "ext_laws", :force => true do |t|
+    t.string   "content"
+    t.integer  "law_type"
+    t.integer  "law_id"
+    t.integer  "source_type"
+    t.integer  "source_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "ext_laws", ["law_id"], :name => "index_ext_laws_on_law_id"
+  add_index "ext_laws", ["source_id"], :name => "index_ext_laws_on_source_id"
+  add_index "ext_laws", ["source_type"], :name => "index_ext_laws_on_source_type"
 
   create_table "extensions", :force => true do |t|
     t.integer  "extending_id"

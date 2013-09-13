@@ -72,7 +72,20 @@ module Faxin
       end
       
       # 获取法律正文
+      params do
+        optional :type_id, type: Integer, desc: "类别id"
+      end
       get '/:id/body' do
+        tid = params[:type_id].to_i
+        tid = tid.zero? ? 3 : tid
+        
+        if tid != 1 and tid != 5
+          user = authenticate!
+          if not user.try(:is_vip)
+            return render_error_json(401, "还不是vip用户")
+          end
+        end
+        
         id = params[:id].to_i
         @content = LawContent.includes(:law).find_by_id(id)
         { code: 200, message: 'ok', data: { law_info: @content.law.as_json(:only => [:doc_id, :pub_dept, :impl_date]),
@@ -80,7 +93,23 @@ module Faxin
       end
       
       # 获取扩展
+      params do
+        requires :st, type: Integer, desc: "类别id"
+      end
       get '/:id/extensions' do
+        st = params[:st].to_i
+        if st != 1 and st != 2
+          return render_error_json('500', 'st的值不正确，应该为1或2，1表示法律法规，2表示判例')
+        end
+        @exts = ExtLaw.where('source_id = ? and source_type = ?', params[:id].to_i, st).order('law_id desc')
+        if @exts.empty?
+          return render_404_json
+        end
+        
+        present @exts, :with => APIEntities::ExtLawDetail
+        
+        render_json(body())
+        
       end
       
     end # laws

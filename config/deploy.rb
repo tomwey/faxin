@@ -72,14 +72,13 @@ namespace :solr do
     stop
     run "rm -rf #{shared_path}/solr/data/*"
     start
-    puts "You need to run this yourself now:"
-    puts "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
+    run "cd #{current_path} && yes | RAILS_ENV=#{rails_env} bundle exec rake sunspot:solr:reindex"
   end
 
   desc "Symlink in-progress deployment to a shared Solr index"
   task :symlink, :except => { :no_release => true } do
     # run "ln -s #{shared_path}/solr/conf #{release_path}/solr/conf"
-    run "ln -nfs #{shared_path}/solr #{current_path}/solr"
+    run "ln -nfs #{shared_path}/solr #{release_path}/solr"
     # run "ln -s #{shared_path}/solr/pids/ #{release_path}/solr/pids"
   end
 end

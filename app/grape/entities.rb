@@ -10,6 +10,10 @@ module Faxin
       expose :law_type_name, { :as => 'type_name' }
     end
     
+    class ExtLawDetail < Grape::Entity
+      expose :content, :law_id, :law_type
+    end
+    
     class FavoriteLawDetail < Grape::Entity
       expose :law_content_id, { :as => 'id' }
       expose :title, :pub_date

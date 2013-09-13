@@ -67,6 +67,10 @@ module Faxin
       
       # 获取判例正文
       get '/:id/body' do
+        user = authenticate!
+        if not user.try(:is_vip)
+          return render_error_json(401, "还不是vip用户")
+        end
         id = params[:id].to_i
         @content = CaseContent.find_by_id(id)
         if @content.blank?
