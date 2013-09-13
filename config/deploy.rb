@@ -88,11 +88,11 @@ after "deploy:update_code", "solr:symlink"
 #  
 # after 'deploy:setup', 'deploy:setup_solr_data_dir'
 
-# namespace :remote_rake do
-#   task :invoke do
-#     run "cd #{deploy_to}/current; RAILS_ENV=production bundle exec rake db:migrate"
-#   end
-# end
+namespace :remote_rake do
+  task :invoke do
+    run "cd #{deploy_to}/current; RAILS_ENV=production bundle exec rake db:migrate"
+  end
+end
 # 
 # namespace :my_tasks do
 #   task :copy_to_public do
