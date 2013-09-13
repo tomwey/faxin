@@ -92,6 +92,9 @@ namespace :remote_rake do
   task :invoke do
     run "cd #{deploy_to}/current; RAILS_ENV=production bundle exec rake db:migrate"
   end
+  task :drop do
+    run "cd #{deploy_to}/current; RAILS_ENV=production bundle exec rake db:drop"
+  end
 end
 # 
 # namespace :my_tasks do
