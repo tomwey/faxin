@@ -101,6 +101,9 @@ class User < ActiveRecord::Base
   end
   
   def is_vip
+    if self.vip_expired_at.nil?
+      return false
+    end
     return Time.zone.now < self.vip_expired_at
   end
   
