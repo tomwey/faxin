@@ -67,7 +67,7 @@ module Faxin
         fulltext q
         with(:law_type_id, type_id) if type_id != 3
         with(content_id.to_sym).less_than(id) if id > 0
-        order_by order_by_date.to_sym, :desc
+        # order_by order_by_date.to_sym, :desc
         order_by content_id.to_sym, :desc
       end
       
