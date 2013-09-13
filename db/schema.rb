@@ -57,14 +57,6 @@ ActiveRecord::Schema.define(:version => 20130912160156) do
   add_index "ext_laws", ["source_id"], :name => "index_ext_laws_on_source_id"
   add_index "ext_laws", ["source_type"], :name => "index_ext_laws_on_source_type"
 
-  create_table "extensions", :force => true do |t|
-    t.integer  "extending_id"
-    t.string   "extended_ids"
-    t.string   "extended_type"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
   create_table "favorites", :force => true do |t|
     t.text     "content"
     t.integer  "user_id"
@@ -106,11 +98,10 @@ ActiveRecord::Schema.define(:version => 20130912160156) do
   create_table "laws", :force => true do |t|
     t.string   "title"
     t.string   "pub_dept"
-    t.string   "doc_id"
     t.string   "pub_date"
     t.string   "impl_date"
     t.string   "expire_date"
-    t.text     "summary"
+    t.string   "summary"
     t.integer  "law_type_id"
     t.integer  "location_id"
     t.integer  "law_content_id"
