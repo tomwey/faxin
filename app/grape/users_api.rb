@@ -11,6 +11,21 @@ module Faxin
       manager.failure_app = Faxin::UsersAPI
     end
     
+    # 获取VIP信息
+    resource "user" do
+      params do
+        requires :token, type: String, desc: "认证Token"
+      end
+      get '/profile' do
+        user = authenticate!
+        expired_at = user.vip_expired_at
+        if expired_at.present?
+          expired_at = expired_at.strftime('%Y-%m-%d')
+        end
+        { code: 200, message: 'ok', data: { email: user.email, is_vip: user.is_vip, vip_expired_at: expired_at } }
+      end
+    end
+    
     ######################## 注册登录相关API ################################
     resource "account" do
       # 注册
