@@ -82,7 +82,9 @@ module Faxin
         present @results, :with => APIEntities::LawDetail
       end
       
-      json = { total: @results.total, result: body() }
+      @total ||= @search.total
+      
+      json = { total: @total, result: body() }
       
       render_json(json)
       
