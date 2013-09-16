@@ -1,9 +1,9 @@
 ActionMailer::Base.smtp_settings = {
-  :address              => Settings.email_server,
+  :address              => "smtp.sina.com",
   :port                 => 25,
-  :domain               => Settings.domain,
-  :user_name            => Settings.email_sender,
-  :password             => Settings.email_password,
+  :domain               => "127.0.0.1:3000",
+  :user_name            => "",
+  :password             => "",
   :authentication       => "plain",
   :enable_starttls_auto => true
 }
