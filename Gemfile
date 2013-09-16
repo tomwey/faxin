@@ -12,7 +12,7 @@ gem 'grape-entity'
 
 gem 'rest-client'
 
-gem "settingslogic"
+# gem "settingslogic"
 
 # gem 'devise'
 
