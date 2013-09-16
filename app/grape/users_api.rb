@@ -65,7 +65,7 @@ module Faxin
           user.update_private_token
           { code: 200, message: 'ok', data: { email: user.email, token: user.private_token, is_vip: user.is_vip, expired_at: user.vip_expired_at } }
         else
-          { code: 401, message: '登录失败' }
+          { code: 422, message: '登录失败' }
         end
       end
       

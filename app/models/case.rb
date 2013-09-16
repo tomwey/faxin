@@ -20,8 +20,8 @@ class Case < ActiveRecord::Base
     text :court, :boost => 2
     text :summary, :boost => 1
     
-    # time :created_at
-    # string :publish_date
+    time :created_at
+    string :publish_date
     
     integer :case_content_id
   end

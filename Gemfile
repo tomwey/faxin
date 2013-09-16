@@ -12,6 +12,8 @@ gem 'grape-entity'
 
 gem 'rest-client'
 
+gem "settingslogic"
+
 # gem 'devise'
 
 gem 'sunspot_rails'
