@@ -1,6 +1,6 @@
 # coding:utf-8
 class UserMailer < ActionMailer::Base
-  default :from => Settings.email_sender
+  default :from => "kekestudio@sina.com"
   
   def reset_password(user)
     @user = user
