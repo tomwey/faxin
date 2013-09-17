@@ -193,8 +193,13 @@ module Faxin
         end
         
         f = Favorite.find_by_user_id(user.id)
-        f.content = content
-        f.save!
+        if f.blank?
+          Favorite.create!(content: content, user_id: user.id)
+        else
+          f.content = content
+          f.save!
+        end
+        
         { code: 200, message: "ok" }
       end
     end

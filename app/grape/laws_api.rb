@@ -65,6 +65,11 @@ module Faxin
         else
           @laws = Law.more(t, id, lid).limit(page_size)
         end
+        
+        if @laws.empty?
+          return render_404_json
+        end
+        
         present @laws, :with => APIEntities::LawDetail
       
         render_json(body())
@@ -79,7 +84,7 @@ module Faxin
         tid = params[:type_id].to_i
         tid = tid.zero? ? 3 : tid
         
-        if tid != 1 and tid != 5
+        if not (tid == 1 or tid == 4)
           user = authenticate!
           if not user.try(:is_vip)
             return render_error_json(401, "还不是vip用户")
