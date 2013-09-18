@@ -43,10 +43,7 @@ module Faxin
     
     def authenticate!
       user = current_user
-      # error!(render_error_json(401, "Token无效"), 401) unless user
-      if user.blank?
-        return render_error_json(401, "Token无效")
-      end
+      error!(render_error_json(401, "Token无效"), 401) unless user
       return user
     end
   end

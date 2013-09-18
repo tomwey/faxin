@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
           if result['receipt']['bid'] == bid.to_s
             self.update_vip_status(count)
             Purchase.create(:content => count, :user_id => self.id, :receipt => receipt)
-            { code: 200, message: 'verify ok', data: { email: self.email, is_vip: self.is_vip, expired_at: self.vip_expired_at } }
+            { code: 200, message: 'verify ok', data: { email: self.email, is_vip: self.is_vip, vip_expired_at: self.vip_expired_at } }
           else
             { code: 500, message: 'bundle id 不正确' }
           end

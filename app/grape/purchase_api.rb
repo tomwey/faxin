@@ -29,7 +29,9 @@ module Faxin
             return render_error_json(422, '不正确的月数')
           end
           
+          if user
           user.verify(User::VERIFY_PRODUCTION, receipt, bid, count)
+        end
         
         # if result
         #   puts 'ok ------ 0k'
