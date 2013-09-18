@@ -45,7 +45,7 @@ module Faxin
       user = current_user
       # error!(render_error_json(401, "Token无效"), 401) unless user
       if user.blank?
-        return render_error_json(401, "Token无效"
+        return render_error_json(401, "Token无效")
       end
       return user
     end
