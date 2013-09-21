@@ -17,29 +17,22 @@ module Faxin
         purchase = Purchase.find_by_receipt(params[:receipt])
         
         if purchase.present?
-          return render_error_json(400, '你已经验证过了购买')
+          return render_error_json_no_data(3001, '你已经验证过了购买')
         end
         
-          receipt = params[:receipt]
+        receipt = params[:receipt]
         
-          bid = params[:bid] || 'com.kekestudio.LawLibrary'
-          count = params[:month_count].to_i
+        bid = params[:bid] || 'com.kekestudio.LawLibrary'
+        count = params[:month_count].to_i
               
-          if count <= 0
-            return render_error_json(422, '不正确的月数')
-          end
+        if count <= 0
+          return render_error_json_no_data(3002, '购买的月数至少为1')
+        end
           
-          if user
+        if user
           user.verify(User::VERIFY_PRODUCTION, receipt, bid, count)
         end
         
-        # if result
-        #   puts 'ok ------ 0k'
-        # end
-        
-        #       
-        # user.update_vip_status(count)
-        # Purchase.create(:content => count, :user_id => user.id)
       end
     end
     

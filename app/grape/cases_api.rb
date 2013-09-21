@@ -5,25 +5,14 @@ module Faxin
   class CasesAPI < Grape::API
     
     # 获取所有案由
-    get '/anyous' do
-      # params do
-      #   optional :aid, type: Integer, desc: '案由类别'
-      # end
-      #     
-      # t = params[:aid].to_i.zero? ? 1 : params[:aid].to_i
-      #     
-      # @anyou = Anyou.find_by_id(t)
-      #     
-      # unless @anyou.present?
-      #   return render_404_json
-      # end
-      
+    get '/anyous' do      
       @anyous = Anyou.where('parent_id != 0')
-    
-      # @anyous = @anyou.children
-    
+      unless @anyous
+        return render_404_json
+      end
+      
       present @anyous, :with => APIEntities::AnyouDetail
-      render_json(body())
+      render_success_with_body(body())
     
     end
     
@@ -38,7 +27,7 @@ module Faxin
       get '/' do
         m = params[:m].to_i
         if not (m == 0 || m == 1)
-          return render_error_json(400, 'mode值不正确，应该为0或1')
+          return render_error_json(2004, 'm值不正确，应该为0或1')
         end
           
         t = params[:aid].to_i.zero? ?  1 : params[:aid].to_i
@@ -62,21 +51,22 @@ module Faxin
       
         present @cases, :with => APIEntities::CaseDetail
       
-        render_json(body())
+        render_success_with_body(body())
       end
       
       # 获取判例正文
       get '/:id/body' do
         user = authenticate!
         if not user.try(:is_vip)
-          return render_error_json(401, "还不是vip用户")
+          return render_error_json(2005, "还不是vip用户")
         end
         id = params[:id].to_i
         @content = CaseContent.find_by_id(id)
         if @content.blank?
           return render_404_json
         end
-        { code: 200, message: 'ok', data: { body: @content.content} }
+        
+        render_success_with_data({ body: @content.content })
       end
     end
     

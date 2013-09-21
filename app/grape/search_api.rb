@@ -22,10 +22,8 @@ module Faxin
         return render_404_json
       end
       
-      { code: 200, message: 'ok', data: @results}
+      render_success_with_data(@results)
       
-      # present @results, :with => APIEntities::SearchHistoryDetail
-      # render_json(body())
     end
     
     # 搜索
@@ -84,7 +82,7 @@ module Faxin
       
       json = { total: @search.total, result: body() }
       
-      render_json(json)
+      render_success_with_body(json)
       
     end
 

@@ -1,4 +1,6 @@
 # coding: utf-8
+require 'helpers'
+
 class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
@@ -37,23 +39,36 @@ class User < ActiveRecord::Base
           if result['receipt']['bid'] == bid.to_s
             self.update_vip_status(count)
             Purchase.create(:content => count, :user_id => self.id, :receipt => receipt)
-            time = self.vip_expired_at
-            if time.present?
-              time = time.strftime('%Y-%m-%d')
-            end
-            { code: 200, message: 'verify ok', data: { email: self.email, is_vip: self.is_vip, vip_expired_at: time } }
+            render_success_with_data(self)
           else
-            { code: 500, message: 'bundle id 不正确' }
+            render_error_json_no_data(3003, '购买的条目所属应用的bundle id不正确')
           end
         else
-          { code: 500, message: '凭证无效' }
+          render_error_json_no_data(3004, '购买凭证无效')
         end
       else
         puts 'verify failure ' + response.code.to_s
-        { code: 500, message: 'verify failure' }
+        render_error_json_no_data(3005, "未知原因的验证购买失败, error code:#{response.code.to_s}")
       end
     }
     
+  end
+  
+  def as_json(options)
+    {
+      email: self.email,
+      token: self.private_token,
+      is_vip: self.is_vip,
+      expired_at: self.user_expired_at
+    }
+  end
+  
+  def user_expired_at
+    time = self.vip_expired_at
+    if time.present?
+      time = time.strftime('%Y-%m-%d')
+    end
+    return time
   end
   
   # 发送重置密码邮件

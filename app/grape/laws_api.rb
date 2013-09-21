@@ -13,7 +13,7 @@ module Faxin
       get '/latest' do
         m = params[:m].to_i
         if not (m == 0 || m == 1)
-          return render_error_json(400, 'mode值不正确，应该为0或1')
+          return render_error_json(2004, 'm值不正确，应该为0或1')
         end
         
         id = params[:id].to_i
@@ -30,7 +30,7 @@ module Faxin
         
         present @laws, :with => APIEntities::LawDetail
         
-        render_json(body())
+        render_success_with_body(body())
         
       end
       
@@ -45,13 +45,17 @@ module Faxin
         
         m = params[:m].to_i
         if not (m == 0 || m == 1)
-          return render_error_json(402, 'mode值不正确，应该为0或1')
+          return render_error_json(2004, 'm值不正确，应该为0或1')
         end
       
         t = params[:type_id].to_i.zero? ?  1 : params[:type_id].to_i
         
         
         @law = LawType.find_by_id(t)
+        unless @law
+          return render_error_json(2006, '没有该法律类别')
+        end
+        
         if @law.name == '判例'
           redirect "/api/anyous", permanent: true
           return
@@ -72,7 +76,7 @@ module Faxin
         
         present @laws, :with => APIEntities::LawDetail
       
-        render_json(body())
+        render_success_with_body(body())
         
       end
       
@@ -87,7 +91,7 @@ module Faxin
         if not (tid == 1 or tid == 4)
           user = authenticate!
           if not user.try(:is_vip)
-            return render_error_json(401, "还不是vip用户")
+            return render_error_json(2005, "还不是vip用户")
           end
         end
         
@@ -96,7 +100,7 @@ module Faxin
         if @content.blank?
           return render_404_json
         end
-        { code: 200, message: 'ok', data: { law_info: @content.law.as_json(:only => [:summary, :pub_dept, :impl_date]),
+        { code: 0, message: 'ok', data: { law_info: @content.law.as_json(:only => [:summary, :pub_dept, :impl_date]),
             body: @content.content} }
       end
       
@@ -107,7 +111,7 @@ module Faxin
       get '/:id/extensions' do
         st = params[:st].to_i
         if st != 1 and st != 2
-          return render_error_json('500', 'st的值不正确，应该为1或2，1表示法律法规，2表示判例')
+          return render_error_json(2004, 'st的值不正确，应该为1或2，1表示法律法规，2表示判例')
         end
         @exts = ExtLaw.where('source_id = ? and source_type = ?', params[:id].to_i, st).order('law_id desc')
         if @exts.empty?
@@ -116,7 +120,7 @@ module Faxin
         
         present @exts, :with => APIEntities::ExtLawDetail
         
-        render_json(body())
+        render_success_with_body(body())
         
       end
       

@@ -9,8 +9,12 @@ module Faxin
       # 获取所有的法律类别
       get '/' do
         @law_types = LawType.order('id asc')
+        unless @law_types
+          return render_404_json
+        end
+        
         present @law_types, with: APIEntities::LawType
-        render_json(body())
+        render_success_with_body(body())
       end
       
       #1,12:2,22:3,33:4,44:5,45
@@ -21,8 +25,9 @@ module Faxin
       get '/latest' do
         data = params[:data]
         if data.blank?
-          return render_error_json(400, 'type_data 参数为空')
+          return render_error_json_no_data(2003, '参数值为空')
         end
+        
         arr = data.split(':') 
         result = []
         arr.each do |id|
@@ -45,7 +50,7 @@ module Faxin
           return render_404_json
         end
         
-        { code: 200, message: 'ok', data: result }
+        render_success_with_data(result)
         
       end
     end

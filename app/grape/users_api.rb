@@ -18,11 +18,7 @@ module Faxin
       end
       get '/profile' do
         user = authenticate!
-        expired_at = user.vip_expired_at
-        if expired_at.present?
-          expired_at = expired_at.strftime('%Y-%m-%d')
-        end
-        { code: 200, message: 'ok', data: { email: user.email, is_vip: user.is_vip, vip_expired_at: expired_at } }
+        render_success_with_data(user)
       end
     end
     
@@ -37,20 +33,20 @@ module Faxin
         
         user = User.find_by_email(params[:email])
         if user.present?
-          return render_error_json(100, '用户已经存在')
+          return render_error_json_no_data(1001, '用户已经存在')
         end
         
         if params[:password].length < 6
-          return render_error_json(101, '密码长度不应该小于6位')
+          return render_error_json_no_data(1002, '密码长度不应该小于6位')
         end
         
         @user = User.new(email:params[:email], password:params[:password], password_confirmation: params[:password])
         if @user.save
           warden.set_user(@user)
           @user.ensure_private_token!
-          { code: 200, message: 'ok', data: { email: @user.email, token: @user.private_token, is_vip: @user.is_vip, expired_at: user.vip_expired_at } }
+          render_success_with_data(@user)
         else
-          render_error_json(400, '注册失败')
+          render_error_json_no_data(1003, '注册用户失败')
         end        
       end
       
@@ -60,13 +56,19 @@ module Faxin
         requires :password, type: String, desc: "密码"
       end
       post '/login' do
+        user = User.find_by_email(params[:email])
+        unless user
+          return render_error_json_no_data(1004, '登录的邮箱不存在')
+        end
+        
         user = warden.authenticate(:password)
         if user
           user.update_private_token
-          { code: 200, message: 'ok', data: { email: user.email, token: user.private_token, is_vip: user.is_vip, expired_at: user.vip_expired_at } }
+          render_success_with_data(user)
         else
-          { code: 422, message: '登录失败' }
+          render_error_json_no_data(1005, '登录密码不正确')
         end
+        
       end
       
       # 退出登录
@@ -75,10 +77,9 @@ module Faxin
       end
       post '/logout' do
         authenticate!
-        # error!(render_error_json(401, "您已经退出登录了"), 401) unless warden.user
         
         warden.logout
-        { code: 200, message: "ok" }
+        render_success
       end
       
       # 忘记密码
@@ -88,10 +89,10 @@ module Faxin
       post '/password/forget' do
         user = User.find_by_email(params[:email])
         unless user
-          return render_error_json(404, '用户不存在')
+          return render_error_json_no_data(1004, '账号不存在')
         end
         user.send_password_reset
-        { code: 200, message: 'ok' }
+        render_success
       end
       
       # 重置密码
@@ -102,14 +103,23 @@ module Faxin
       end
       post '/password/reset' do
         @user = User.find_by_password_reset_token!(params[:code])
+        
+        unless @user
+          return render_error_json_no_data(1007, '重置验证码不正确')
+        end
+        
+        if params[:password].length < 6 or params[:password_confirmation].length < 6
+          return render_error_json_no_data(1002, '密码长度不应该小于6位')
+        end
+        
         if @user.password_reset_sent_at < 2.hours.ago
-          render_error_json(105, '验证码已过期')
+          render_error_json_no_data(1008, '验证码已过期')
         elsif params[:password] != params[:password_confirmation]
-          render_error_json(106, '两次输入密码不一致')
+          render_error_json_no_data(1009, '两次输入密码不一致')
         elsif @user.update_attribute(:password, params[:password])
-          { code: 200, message: 'ok' }
+          render_success
         else
-          render_error_json(107, '重置密码失败')
+          render_error_json_no_data(1010, '未知原因重置密码失败')
         end
       end
       
@@ -123,13 +133,30 @@ module Faxin
       post '/password/update' do
         user = authenticate!
         params.delete(:token)
-        if params[:password] != params[:password_confirmation]
-          render_error_json(106, '两次输入密码不一致')
-        elsif user.update_with_password(params)
-          { code: 200, message: 'ok' }
-        else
-          render_error_json(400, '密码修改失败')
+        
+        # 如果全部留白，那么直接返回成功，表示不需要修改密码
+        if params[:old_password].blank? and params[:password].blank? and params[:password_confirmation]
+          return render_success
         end
+        
+        if params[:password].length < 6 or params[:password_confirmation].length < 6
+          return render_error_json_no_data(1002, '密码长度不应该小于6位')
+        end
+        
+        if params[:password] != params[:password_confirmation]
+          return render_error_json_no_data(1009, '两次输入密码不一致')
+        end
+        
+        if not user.try(:authenticate, params[:old_password])
+          return render_error_json_no_data(1011, '旧密码不正确')
+        end
+        
+        if user.update_attribute(:password, params[:password])
+          render_success
+        else
+          render_error_json_no_data(1012, '未知原因的修改密码失败')
+        end
+        
       end
       
     end
@@ -162,11 +189,16 @@ module Faxin
           tid, id = s_id.split(',')
           if tid.to_i == 1
             @law = Law.find_by_law_content_id(id.to_i)
-            # puts { id:@law.law_content_id, title:@law.title, pub_date:@law.pub_date, type_name:@law.law_type_name }
+            unless @law
+              return render_404_json
+            end
             result << { id: @law.law_content_id, title: @law.title, pub_date: @law.pub_date, type_name: @law.law_type_name }
           else
             @case = Case.find_by_case_content_id(id.to_i)
-            result << { id: @case.case_content_id, title: @case.title, pub_date: @case.created_at.strftime('%Y-%m-%d'), 
+            unless @case
+              return render_404_json
+            end
+            result << { id: @case.case_content_id, title: @case.title, pub_date: @case.created_at.try(:strftime,'%Y-%m-%d'), 
                         type_name: @case.law_type_name }
           end # if
         end # each
@@ -175,8 +207,7 @@ module Faxin
           return render_404_json
         end
         
-        { code: 200, message: 'ok', data: result }
-        
+        render_success_with_data(result)
       end
       
       # 收藏
@@ -189,7 +220,7 @@ module Faxin
         
         content = params[:content]
         unless content
-          return render_error_json('400', '收藏的内容不能为空')
+          return render_error_json_no_data(2002, '收藏的内容不能为空')
         end
         
         f = Favorite.find_by_user_id(user.id)
@@ -200,7 +231,7 @@ module Faxin
           f.save!
         end
         
-        { code: 200, message: "ok" }
+        render_success
       end
     end
   end

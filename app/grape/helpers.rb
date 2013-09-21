@@ -30,20 +30,36 @@ module Faxin
     end
     
     def render_json(data)
-      body ( { code: 200, message:'ok', data:data } )
+      body ( { code: 0, message:'ok', data:data } )
+    end
+    
+    def render_success
+      { code: 0, message: 'ok' }
+    end
+    
+    def render_success_with_data(data)
+      { code: 0, message: 'ok', data: data }
+    end
+    
+    def render_success_with_body(data)
+      body ( { code: 0, message:'ok', data: data } )
     end
     
     def render_404_json
-      render_error_json(404, '数据为空')
+      render_error_json(2001, '数据为空')
     end
     
     def render_error_json(code, message)
       { code: code, message: message, data: [] }
     end
     
+    def render_error_json_no_data(code, message)
+      { code: code, message: message }
+    end
+    
     def authenticate!
       user = current_user
-      error!(render_error_json(401, "Token无效"), 200) unless user
+      error!(render_error_json_no_data(1006, "你已经下线请重新登录"), 200) unless user
       return user
     end
   end
