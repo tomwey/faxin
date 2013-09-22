@@ -1,5 +1,5 @@
 # coding: utf-8
-require 'helpers'
+# require 'helpers'
 
 class User < ActiveRecord::Base
 
@@ -39,16 +39,20 @@ class User < ActiveRecord::Base
           if result['receipt']['bid'] == bid.to_s
             self.update_vip_status(count)
             Purchase.create(:content => count, :user_id => self.id, :receipt => receipt)
-            render_success_with_data(self)
+            # render_success_with_data(self)
+            { code: 0, message: 'ok', data: self }
           else
-            render_error_json_no_data(3003, '购买的条目所属应用的bundle id不正确')
+            # render_error_json_no_data(3003, '购买的条目所属应用的bundle id不正确')
+            { code: 3003, message: '购买的条目所属应用的bundle id不正确' }
           end
         else
-          render_error_json_no_data(3004, '购买凭证无效')
+          # render_error_json_no_data(3004, '购买凭证无效')
+          { code: 3004, message: '购买凭证无效' }
         end
       else
         puts 'verify failure ' + response.code.to_s
-        render_error_json_no_data(3005, "未知原因的验证购买失败, error code:#{response.code.to_s}")
+        # render_error_json_no_data(3005, "未知原因的验证购买失败, error code:#{response.code.to_s}")
+        { code: 3005, message: '未知原因的验证购买失败' }
       end
     }
     
