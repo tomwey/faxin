@@ -64,8 +64,8 @@ module Faxin
         
         fulltext q
         with(:law_type_id, type_id) if type_id != 3
-        order_by order_by_date.to_sym, :desc
         order_by :score, :desc
+        order_by order_by_date.to_sym, :desc
         order_by content_id.to_sym, :desc
         paginate(:page => params[:p] || 1, :per_page => page_size)
       end
