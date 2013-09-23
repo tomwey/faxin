@@ -14,18 +14,43 @@ class Law < ActiveRecord::Base
   
   searchable do
     text :title, :boost => 5, :stored => true
-    text :content, :boost => 3
+    text :content, :boost => 3, :stored => true
+    
+    text :pub_time1
+    text :pub_time2
+    
+    text :pub_month1
+    text :pub_month2
+    
     time :pub_date
-    string :publish_date
+    # string :publish_date
     
     integer :law_type_id
     integer :location_id
     integer :law_content_id
   end
   
-  def publish_date
+  def pub_time1
     if pub_date
       pub_date.to_time.strftime("%Y-%m-%d")
+    end
+  end
+  
+  def pub_time2
+    if pub_date
+      pub_date.to_time.strftime("%Y%m%d")
+    end
+  end
+  
+  def pub_month1
+    if pub_date
+      pub_date.to_time.strftime("%Y-%m")
+    end
+  end
+  
+  def pub_month2
+    if pub_date
+      pub_date.to_time.strftime("%Y%m")
     end
   end
   

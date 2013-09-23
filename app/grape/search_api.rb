@@ -30,7 +30,7 @@ module Faxin
     params do
       requires :type_id, type: Integer
       requires :q, type: String
-      optional :id, type: Integer
+      optional :p, type: Integer
     end
     
     get '/search' do
@@ -54,19 +54,20 @@ module Faxin
         order_by_date = 'pub_date'
       end
       
-      id = params[:id].to_i
+      # page = params[:page].to_i
       
       @search = klass.search do
         
-        adjust_solr_params do |sunspot_params|
-            sunspot_params[:rows] = page_size
-        end
+        # adjust_solr_params do |sunspot_params|
+        #     sunspot_params[:rows] = page_size
+        # end
         
         fulltext q
         with(:law_type_id, type_id) if type_id != 3
-        with(content_id.to_sym).less_than(id) if id > 0
-        # order_by order_by_date.to_sym, :desc
+        order_by order_by_date.to_sym, :desc
+        order_by :score, :desc
         order_by content_id.to_sym, :desc
+        paginate(:page => params[:p] || 1, :per_page => page_size)
       end
       
       @results = @search.results
