@@ -68,11 +68,12 @@ class User < ActiveRecord::Base
   end
   
   def user_expired_at
-    time = self.vip_expired_at
-    if time.present?
-      time = time.strftime('%Y-%m-%d')
+    time = if self.vip_expired_at.blank?
+      ''
+    else
+      self.vip_expired_at.strftime('%Y-%m-%d')
     end
-    return time
+    time
   end
   
   # 发送重置密码邮件
