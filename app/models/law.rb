@@ -30,6 +30,28 @@ class Law < ActiveRecord::Base
     integer :law_content_id
   end
   
+  after_save :update_content_id
+  def update_content_id
+    if self.law_content_id != self.law_content.id
+      self.law_content_id = self.law_content.id
+    end
+  end
+  
+  def content=(value)
+    self.law_content ||= LawContent.new
+    self.law_content.content = value
+  end
+  
+  def update_law(param_hash)
+    self.transaction do
+      update_attributes!(param_hash)
+      law_content.save!
+      save!
+    end
+  rescue
+    return false
+  end
+  
   def pub_time1
     if pub_date
       pub_date.to_time.strftime("%Y-%m-%d")

@@ -5,6 +5,12 @@ Faxin::Application.routes.draw do
   # }
 
   require 'api'
+  
+  get "login", to: "sessions#new", as: "login"
+  get "logout", to: 'sessions#destroy', as: "logout"
+  
+  resources :users
+  resources :sessions
 
   resources :law_types
   resources :laws
@@ -12,7 +18,7 @@ Faxin::Application.routes.draw do
   resources :anyous
   resources :cases
   
-  root to:"home#index"
+  root to: "home#index"
   
   mount Faxin::API => '/'
   

@@ -1,0 +1,60 @@
+<%= form_for @case, :html => { :class => "form-horizontal" } do |f| %>
+  <fieldset>
+    <legend></legend>
+    <div class="control-group">
+      <%= f.label :title, "标题", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :title, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :court, "所属法院", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :court, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :case_type, "判例类型", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :case_type %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :created_at, "发布日期", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :created_at %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :summary, "摘要", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :summary, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :anyou_id, "所属案由", :class => "control-label" %>
+      <div class="controls">
+        <%= f.select :anyou_id, Anyou.all_anyous, :prompt => "请选择案由" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :content, "正文", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_area :content, :rows => 10, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit "保存", :class => "btn btn-primary", :disable_with => '正在提交...' %>
+      </div>
+    </div>
+    
+  </fieldset>
+<% end %>

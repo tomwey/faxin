@@ -32,6 +32,29 @@ class Case < ActiveRecord::Base
     integer :case_content_id
   end
   
+  after_save :update_content_id
+  def update_content_id
+    if self.case_content_id != self.case_content.id
+      self.case_content_id = self.case_content.id
+    end
+  end
+  
+  def content=(value)
+    self.case_content ||= CaseContent.new
+    self.case_content.content = value
+  end
+  
+  def update_case(param_hash)
+    self.transaction do
+      update_attributes!(param_hash)
+      case_content.save!
+      save!
+    end
+  rescue
+    return false
+  end
+  
+  
   def pub_time1
     if created_at
       created_at.to_time.strftime("%Y-%m-%d")

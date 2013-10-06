@@ -1,0 +1,74 @@
+<%= form_for @law, :html => { :class => "form-horizontal" } do |f| %>
+  <fieldset>
+    <legend></legend>
+    <div class="control-group">
+      <%= f.label :title, "标题", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :title, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :pub_dept, "发布部门", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :pub_dept, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :pub_date, "发布日期", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :pub_date %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :impl_date, "实施日期", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :impl_date %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :expire_date, "失效日期", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :expire_date %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :doc_id, "摘要", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :doc_id, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :law_type_id, "法律类别", :class => "control-label" %>
+      <div class="controls">
+        <%= f.select :law_type_id, LawType.all_types %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :location_id, "省份", :class => "control-label" %>
+      <div class="controls">
+        <%= f.select :location_id, Location.all_locations, :prompt => "请选择省份" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :content, "正文", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_area :content, :rows => 10, :class => "input-xxlarge" %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit "保存", :class => "btn btn-primary", :disable_with => '正在提交...' %>
+      </div>
+    </div>
+    
+  </fieldset>
+<% end %>

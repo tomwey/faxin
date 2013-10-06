@@ -19,6 +19,13 @@
           <li><%= link_to "判例",  cases_path %></li>
           <li><%= link_to "案由",  anyous_path %></li>
         </ul>
+        <div class="navbar-text pull-right">
+          <% if current_user %>
+          <%= current_user.email %> <%= link_to '退出登录', logout_path %>
+          <% else %>
+          <%= link_to '登录', login_path, :class => "btn" %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
