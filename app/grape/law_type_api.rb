@@ -37,10 +37,14 @@ module Faxin
           
           hash = {}
           
-          if tid == 3
-            count = Case.where('case_content_id > ?', lid).count
+          if lid <= 0
+            count = 0
           else
-            count = Law.where('law_content_id > ? and law_type_id = ?', lid, tid).count
+            if tid == 3
+              count = Case.where('case_content_id > ?', lid).count
+            else
+              count = Law.where('law_content_id > ? and law_type_id = ?', lid, tid).count
+            end
           end
           
           result << { :type_id => tid, :count => count }
