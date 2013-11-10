@@ -18,6 +18,9 @@ Faxin::Application.routes.draw do
   resources :anyous
   resources :cases
   
+  match '/search' => 'search#index', :as => :search, :via => :get
+  match '/search/cases' => 'search#cases', :as => :search_cases, :via => :get
+  
   root to: "home#index"
   
   mount Faxin::API => '/'

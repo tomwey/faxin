@@ -3,7 +3,7 @@
     <div class="span8">
       <div class="row-fluid">
         <div class="span3">
-          <h2>法律列表</h2>
+          <h2><%= @law_type.name %></h2>
         </div>
         
         <div class="span2 navbar-text">
@@ -15,6 +15,7 @@
         <div class="span7">
           <form class="form-search pull-right" action="/search" method="get">
             <div class="input-append">
+                <input type="hidden" value="<%= @law_type.id %>" name="type_id" />
                 <input type="text" class="input-large search-query" name="q" value="<%= params[:q] %>" placeholder="搜索"/>
                 <button type="submit" class="btn">搜索</button>
             </div>

@@ -11,15 +11,14 @@
       <th>法律总数</th>
       <th>#</th>
     </tr>
-  
     <% @law_types.each do |type| %>
-    <tr>
-      <td><%= type.id %></td>
-      <td><%= type.name %></td>
-      <td><%= type.laws_count %></td>
-      <td><%= link_to 'Edit', edit_law_type_path(type), class: "btn btn-mini" %> 
-      <%= link_to 'Delete', law_type_path(type), :method => :delete, confirm: "你确定要删除吗？", class: "btn btn-danger btn-mini" %></td>
-    </tr>
+      <tr>
+        <td><%= type.id %></td>
+        <td><%= link_to_if(type) %></td>
+        <td><%= type.laws_count %></td>
+        <td><%= link_to 'Edit', edit_law_type_path(type), class: "btn btn-mini" %> 
+        <%= link_to 'Delete', law_type_path(type), :method => :delete, confirm: "你确定要删除吗？", class: "btn btn-danger btn-mini" %></td>
+      </tr>
     <% end %>
   
   </table>

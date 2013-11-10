@@ -1,6 +1,27 @@
 <div class="box">
   <div class="row-fluid">
-    <div class="span8"><h2>判例列表</h2></div>
+    <div class="span8">
+      <div class="row-fluid">
+        <div class="span3">
+          <h2>判例列表</h2>
+        </div>
+      
+        <div class="span2 navbar-text">
+          <% if @total %>
+            共找到<%= @total %>条
+          <% end %>
+        </div>
+      
+        <div class="span7">
+          <form class="form-search pull-right" action="/search/cases" method="get">
+            <div class="input-append">
+                <input type="text" class="input-large search-query" name="q" value="<%= params[:q] %>" placeholder="搜索"/>
+                <button type="submit" class="btn">搜索</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <div class="span4"><%= link_to '新建判例', new_case_path, class: "btn btn-primary pull-right" %>
     </div>
   </div>
