@@ -20,7 +20,7 @@ module Faxin
       expose :law_type_name, { :as => 'type_name' }
     end
   
-    class LawConentDetail < Grape::Entity
+    class LawContentDetail < Grape::Entity
       expose :content
     end
   
@@ -31,6 +31,7 @@ module Faxin
       expose :pub_date do |model, opts|
         model.created_at.strftime('%Y-%m-%d')
       end
+      expose :law_type_name, { :as => 'type_name' }
     end
     
     class FavoriteCaseDetail < Grape::Entity
