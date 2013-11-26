@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130912160156) do
+ActiveRecord::Schema.define(:version => 20131124154325) do
+
+  create_table "active_codes", :force => true do |t|
+    t.string   "code"
+    t.integer  "month_count"
+    t.integer  "user_id"
+    t.boolean  "is_valid",    :default => true
+    t.datetime "actived_at"
+    t.boolean  "is_buyed",    :default => false
+    t.boolean  "is_unbuyed",  :default => false
+    t.datetime "buyed_at"
+    t.datetime "unbuyed_at"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+  end
 
   create_table "anyous", :force => true do |t|
     t.string   "name"
@@ -57,6 +71,14 @@ ActiveRecord::Schema.define(:version => 20130912160156) do
   add_index "ext_laws", ["source_id"], :name => "index_ext_laws_on_source_id"
   add_index "ext_laws", ["source_type"], :name => "index_ext_laws_on_source_type"
 
+  create_table "extensions", :force => true do |t|
+    t.integer  "extending_id"
+    t.string   "extended_ids"
+    t.string   "extended_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "favorites", :force => true do |t|
     t.text     "content"
     t.integer  "user_id"
@@ -98,10 +120,11 @@ ActiveRecord::Schema.define(:version => 20130912160156) do
   create_table "laws", :force => true do |t|
     t.string   "title"
     t.string   "pub_dept"
+    t.string   "doc_id"
     t.string   "pub_date"
     t.string   "impl_date"
     t.string   "expire_date"
-    t.string   "summary"
+    t.text     "summary"
     t.integer  "law_type_id"
     t.integer  "location_id"
     t.integer  "law_content_id"

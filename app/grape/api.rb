@@ -7,6 +7,7 @@ require 'purchase_api'
 require 'law_type_api'
 require 'laws_api'
 require 'cases_api'
+require 'active_api'
 
 module Faxin
   class API < Grape::API
@@ -16,6 +17,7 @@ module Faxin
     helpers APIHelpers
     
     mount UsersAPI
+    mount ActiveAPI
     mount PurchaseAPI
     mount SearchAPI
     mount LawTypeAPI

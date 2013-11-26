@@ -1,0 +1,37 @@
+<div class="box">
+  <div class="row-fluid">
+    <div class="span8"><h2>激活码列表</h2></div>
+    <div class="span4"><%= link_to '生成激活码', new_active_code_path, class: "btn btn-primary pull-right" %></div>
+  </div>
+  <%= will_paginate @active_codes %>
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>激活码</th>
+      <th>激活月数</th>
+      <th>创建时间</th>
+      <th>是否发货</th>
+      <th>发货时间</th>
+      <th>#</th>
+    </tr>
+    <% @active_codes.each do |code| %>
+      <tr>
+        <td><%= code.id %></td>
+        <td><%= code.code %></td>
+        <td><%= code.month_count %></td>
+        <td><%= code.created_at %></td>
+        <td><%= code.is_buyed ? '已经发货' : '未发货' %></td>
+        <td><%= code.try(:buyed_at) %></td>
+        <td>
+          <%= link_to 'Delete', code, :method => :delete, confirm: "你确定要删除吗？", class: "btn btn-danger btn-mini" %>
+          <% if not code.actived_at.nil? and not code.is_unbuyed %>
+          <%= link_to '退货', unbuy_active_code_path(code), :method => :put, confirm: "你确定要退货吗？", class: "btn btn-mini" %>
+          <% end %>
+          <%= link_to '发货', buy_active_code_path(code),  :method => :put, confirm: "你确定要发货吗？", class: "btn btn-mini" %> 
+        </td>
+      </tr>
+    <% end %>
+  
+  </table>
+</div>
+

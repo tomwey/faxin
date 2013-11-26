@@ -18,6 +18,13 @@ Faxin::Application.routes.draw do
   resources :anyous
   resources :cases
   
+  resources :active_codes, only: [:index,:new,:create, :buy, :unbuy, :destroy] do
+    member do
+      put :buy
+      put :unbuy
+    end
+  end
+  
   match '/search' => 'search#index', :as => :search, :via => :get
   match '/search/cases' => 'search#cases', :as => :search_cases, :via => :get
   
