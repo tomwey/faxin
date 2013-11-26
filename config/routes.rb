@@ -27,6 +27,7 @@ Faxin::Application.routes.draw do
   
   match '/search' => 'search#index', :as => :search, :via => :get
   match '/search/cases' => 'search#cases', :as => :search_cases, :via => :get
+  match '/search/active_codes' => 'search#active_codes', :as => :search_active_codes, :via => :get
   
   root to: "home#index"
   

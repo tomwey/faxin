@@ -25,6 +25,17 @@ class SearchController < ApplicationController
     render 'cases/index'
   end
   
+  # 搜索未发货的激活码
+  def active_codes
+    code = params[:q]
+    if code.present?
+      @active_codes = ActiveCode.unsaled.where(:code => params[:q]).paginate :page => params[:page], :per_page => 10
+    else
+      @active_codes = ActiveCode.unsaled.paginate :page => params[:page], :per_page => 10
+    end
+    render 'active_codes/index'
+  end
+  
   private
   
   def search(q,type_id)
