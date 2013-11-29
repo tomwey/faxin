@@ -22,6 +22,19 @@ module Faxin
       end
     end
     
+    # 根据UDID获取VIP信息
+    params do
+      requires :udid, type: String, desc: "udid"
+    end
+    get '/vip_info' do
+      device_info = DeviceInfo.find_by_udid(params[:udid])
+      if device_info.blank?
+        render_404_json
+      else
+        render_success_with_data(device_info)
+      end
+    end
+    
     ######################## 注册登录相关API ################################
     resource "account" do
       # 注册

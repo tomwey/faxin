@@ -5,8 +5,16 @@ module Faxin
   class CasesAPI < Grape::API
     
     # 获取所有案由
-    get '/anyous' do      
-      @anyous = Anyou.where('parent_id != 0')
+    params do
+      optional :pid, type: Integer, desc: "案由ID"
+    end
+    get '/anyous' do   
+      pid = params[:pid].to_i
+      if pid == 0   
+        @anyous = Anyou.where('parent_id != 0')
+      else
+        @anyous = Anyou.where(:parent_id => pid)
+      end
       unless @anyous
         return render_404_json
       end
@@ -55,11 +63,24 @@ module Faxin
       end
       
       # 获取判例正文
+      params do
+        optional :udid, type: String, desc: "udid"
+        optional :token, type: String, desc: "认证token"
+      end
       get '/:id/body' do
-        user = authenticate!
-        if not user.try(:is_vip)
-          return render_error_json(2005, "还不是vip用户")
+        
+        if is_android?
+          user = authenticate!
+          if not user.try(:is_vip)
+            return render_error_json(2005, "还不是vip用户")
+          end
+        elsif is_iphone?
+          di = DeviceInfo.find_by_udid(params[:udid])
+          if not di.try(:is_vip)
+            return render_error_json(2005, "还不是vip用户")
+          end
         end
+        
         id = params[:id].to_i
         @content = CaseContent.find_by_id(id)
         if @content.blank?

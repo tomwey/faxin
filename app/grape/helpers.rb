@@ -29,6 +29,16 @@ module Faxin
       [size.zero? ? default_page_size : size, max_page_size].min
     end
     
+    def is_android?
+      user_agent = request.user_agent.downcase
+      return user_agent.match(/android/)
+    end
+    
+    def is_iphone?
+      user_agent = request.user_agent.downcase
+      return user_agent.match(/iphone/)
+    end
+    
     def render_json(data)
       body ( { code: 0, message:'ok', data:data } )
     end

@@ -83,15 +83,24 @@ module Faxin
       # 获取法律正文
       params do
         optional :type_id, type: Integer, desc: "类别id"
+        optional :udid, type: String, desc: "udid"
+        optional :token, type: String, desc: "认证token"
       end
       get '/:id/body' do
         tid = params[:type_id].to_i
         tid = tid.zero? ? 3 : tid
         
         if not (tid == 1 or tid == 4)
-          user = authenticate!
-          if not user.try(:is_vip)
-            return render_error_json(2005, "还不是vip用户")
+          if is_android?
+            user = authenticate!
+            if not user.try(:is_vip)
+              return render_error_json(2005, "还不是vip用户")
+            end
+          elsif is_iphone?
+            di = DeviceInfo.find_by_udid(params[:udid])
+            if not di.try(:is_vip)
+              return render_error_json(2005, "还不是vip用户")
+            end
           end
         end
         

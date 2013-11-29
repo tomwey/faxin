@@ -6,5 +6,6 @@ class Purchase < ActiveRecord::Base
   validates_presence_of :receipt
   
   belongs_to :user, :counter_cache => true
+  belongs_to :device_info
   
 end

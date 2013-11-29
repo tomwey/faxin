@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131126125134) do
+ActiveRecord::Schema.define(:version => 20131126145220) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(:version => 20131126125134) do
 
   add_index "cases", ["anyou_id"], :name => "index_cases_on_anyou_id"
   add_index "cases", ["case_content_id"], :name => "index_cases_on_case_content_id", :unique => true
+
+  create_table "device_infos", :force => true do |t|
+    t.string   "udid"
+    t.datetime "vip_expired_at"
+    t.integer  "month_count",    :default => 0
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "device_infos", ["udid"], :name => "index_device_infos_on_udid", :unique => true
 
   create_table "ext_laws", :force => true do |t|
     t.string   "content"
@@ -152,8 +162,10 @@ ActiveRecord::Schema.define(:version => 20131126125134) do
     t.datetime "updated_at",                          :null => false
     t.text     "receipt"
     t.boolean  "receipt_is_valid", :default => false
+    t.integer  "device_info_id"
   end
 
+  add_index "purchases", ["device_info_id"], :name => "index_purchases_on_device_info_id"
   add_index "purchases", ["user_id"], :name => "index_purchases_on_user_id"
 
   create_table "search_histories", :force => true do |t|
