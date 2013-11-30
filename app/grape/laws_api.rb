@@ -79,31 +79,32 @@ module Faxin
         render_success_with_body(body())
         
       end
-      
+            
+      ####################################################################################################################
       # 获取法律正文
+      # params type_id 类别id
+      # params token 认证token
       params do
-        optional :type_id, type: Integer, desc: "类别id"
-        optional :udid, type: String, desc: "udid"
+        requires :type_id, type: Integer, desc: "类别id"
         optional :token, type: String, desc: "认证token"
       end
       get '/:id/body' do
         tid = params[:type_id].to_i
-        tid = tid.zero? ? 3 : tid
+        if tid == 3
+          return render_error_json_no_data(2007, "请求了错误的资源")
+        end
         
-        if not (tid == 1 or tid == 4)
-          if is_android?
-            user = authenticate!
-            if not user.try(:is_vip)
-              return render_error_json(2005, "还不是vip用户")
-            end
-          elsif is_iphone?
-            di = DeviceInfo.find_by_udid(params[:udid])
-            if not di.try(:is_vip)
-              return render_error_json(2005, "还不是vip用户")
-            end
+        if not (tid == 1 or tid == 4) # 类别1和类别4是不需要验证的
+          if params[:token].blank?
+            return render_error_json_no_data(2003, "token参数没有设置，或值为空")
+          end
+          user = authenticate!
+          if not user.try(:is_vip)
+            return render_error_json(2005, "还不是vip用户")
           end
         end
         
+        # 登录成功并且是vip用户
         id = params[:id].to_i
         @content = LawContent.includes(:law).find_by_id(id)
         if @content.blank?
@@ -112,7 +113,7 @@ module Faxin
         { code: 0, message: 'ok', data: { law_info: @content.law.as_json(:only => [:doc_id, :pub_dept, :impl_date]),
             body: @content.content} }
       end
-      
+      ####################################################################################################################
       # 获取扩展
       params do
         requires :st, type: Integer, desc: "类别id"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131126145220) do
+ActiveRecord::Schema.define(:version => 20131130014603) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -189,10 +189,12 @@ ActiveRecord::Schema.define(:version => 20131126145220) do
     t.integer  "purchases_count",        :default => 0
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.string   "udid"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["password_reset_token"], :name => "index_users_on_password_reset_token"
   add_index "users", ["private_token"], :name => "index_users_on_private_token"
+  add_index "users", ["udid"], :name => "index_users_on_udid", :unique => true
 
 end

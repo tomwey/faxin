@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   def as_json(options)
     {
       email: self.email,
-      token: self.private_token,
+      token: self.private_token ||= "",
       is_vip: self.is_vip,
       expired_at: self.user_expired_at
     }
@@ -110,7 +110,9 @@ class User < ActiveRecord::Base
   # 重新生成private_token
   def update_private_token
     random_key = "#{SecureRandom.hex(10)}:#{self.id}"
-    self.update_attribute(:private_token, random_key)
+    self.private_token = random_key
+    self.save!
+    # self.update_attribute(:private_token, random_key)
   end
   
   def ensure_private_token!

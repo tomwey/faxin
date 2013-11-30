@@ -22,19 +22,6 @@ module Faxin
       end
     end
     
-    # 根据UDID获取VIP信息
-    params do
-      requires :udid, type: String, desc: "udid"
-    end
-    get '/vip_info' do
-      device_info = DeviceInfo.find_by_udid(params[:udid])
-      if device_info.blank?
-        render_404_json
-      else
-        render_success_with_data(device_info)
-      end
-    end
-    
     ######################## 注册登录相关API ################################
     resource "account" do
       # 注册
@@ -56,6 +43,7 @@ module Faxin
         @user = User.new(email:params[:email], password:params[:password], password_confirmation: params[:password])
         if @user.save
           warden.set_user(@user)
+          @user.registered_os = os_name
           @user.ensure_private_token!
           render_success_with_data(@user)
         else
@@ -76,6 +64,10 @@ module Faxin
         
         user = warden.authenticate(:password)
         if user
+          # 记录登录信息
+          user.last_logined_os = os_name
+          user.last_logined_at = Time.zone.now
+          # 更新private token
           user.update_private_token
           render_success_with_data(user)
         else

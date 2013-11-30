@@ -39,6 +39,17 @@ module Faxin
       return user_agent.match(/iphone/)
     end
     
+    # 获取操作系统名称
+    def os_name
+      os_name = ''
+      if is_android?
+        os_name = 'android'
+      elsif is_iphone?
+        os_name = 'iphone'
+      end
+      os_name
+    end
+    
     def render_json(data)
       body ( { code: 0, message:'ok', data:data } )
     end
