@@ -13,14 +13,18 @@ module Faxin
       if pid == 0   
         @anyous = Anyou.where('parent_id != 0')
       else
-        @anyous = Anyou.where(:parent_id => pid)
+        @anyous = Anyou.includes(:children).where(:parent_id => pid)
       end
       unless @anyous
         return render_404_json
       end
       
-      present @anyous, :with => APIEntities::AnyouDetail
-      render_success_with_body(body())
+      hash = []
+      @anyous.each do |a|      
+        hash << a
+      end
+      
+      { code: 0, message: "ok", data: hash }
     
     end
     

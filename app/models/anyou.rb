@@ -11,4 +11,22 @@ class Anyou < ActiveRecord::Base
     subanyous2 = Anyou.where(:parent_id => subanyous.map { |a| a.id })
     subanyous2.map { |a| [a.name, a.id] }
   end
+  
+  def as_json(options)
+    {
+      id: self.id,
+      name: self.name || "",
+      cases_count: self.getCasesCount,
+    }
+  end
+  
+  def getCasesCount
+    count = if self.children.any? 
+      self.children.to_a.sum(&:cases_count) 
+    else 
+      self.cases_count
+    end
+    count
+  end
+  
 end
