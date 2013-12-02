@@ -29,13 +29,15 @@ module Faxin
       [size.zero? ? default_page_size : size, max_page_size].min
     end
     
+    def user_agent
+      return (request.env['HTTP_USER_AGENT'] || "other").downcase
+    end
+    
     def is_android?
-      user_agent = request.user_agent.downcase
       return user_agent.match(/android/)
     end
     
     def is_iphone?
-      user_agent = request.user_agent.downcase
       return user_agent.match(/iphone/)
     end
     
@@ -47,6 +49,7 @@ module Faxin
       elsif is_iphone?
         os_name = 'iphone'
       end
+      puts os_name
       os_name
     end
     
