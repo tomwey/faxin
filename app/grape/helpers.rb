@@ -49,7 +49,7 @@ module Faxin
       elsif is_iphone?
         os_name = 'iphone'
       end
-      puts os_name
+      # puts os_name
       os_name
     end
     

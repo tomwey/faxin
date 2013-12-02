@@ -24,7 +24,12 @@ module Faxin
         hash << a
       end
       
-      { code: 0, message: "ok", data: hash }
+      if pid != 0
+        { code: 0, message: "ok", data: hash }
+      else
+        present @anyous, :with => APIEntities::AnyouDetail
+        render_success_with_body(body())
+      end
     
     end
     
