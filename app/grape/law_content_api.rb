@@ -47,7 +47,7 @@ module Faxin
             return render_error_json(2005, "还不是vip用户")
           end
         else
-          user = User.find_by_token(params[:token])
+          user = User.find_by_private_token(params[:token])
           if user.blank?
             return render_error_json_no_data(1006, "您的账号已经下线了")
           end
@@ -84,7 +84,7 @@ module Faxin
           return render_error_json(2005, "还不是vip用户")
         end
       else
-        user = User.find_by_token(params[:token])
+        user = User.find_by_private_token(params[:token])
         if user.blank?
           return render_error_json_no_data(1006, "您的账号已经下线了")
         end
