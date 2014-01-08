@@ -20,6 +20,44 @@ module Faxin
         user = authenticate!
         render_success_with_data(user)
       end
+      
+      # 用户绑定
+      params do
+        requires :email, type: String, desc: "邮箱"
+        requires :udid, type: String, desc: "设备UDID"
+      end
+      post '/bind' do
+        # 任何一个为空值都没有意义
+        if params[:udid].blank? or params[:email].blank?
+          return render_error_json_no_data(2003, '参数值为空')
+        end
+        
+        # 需要绑定的用户
+        u1 = User.find_by_email(params[:email])
+        if u1.blank?
+          return render_error_json_no_data(1013, '要绑定的Email用户不存在')
+        end
+        
+        # 被使用绑定的用户
+        user = User.find_by_udid(params[:udid])
+        if not user.try(:is_vip)
+          return render_error_json_no_data(1014, '用来绑定的udid用户还不是vip用户')
+        end
+        
+        User.transaction do
+          #u1.udid = user.udid
+          u1.vip_expired_at = user.vip_expired_at
+          u1.save!
+          user.vip_expired_at = nil
+          user.save!
+          
+          Bind.create!(:email => params[:email], :udid => params[:udid])
+        end
+        
+        render_success
+        
+      end
+      
     end
     
     ######################## 注册登录相关API ################################

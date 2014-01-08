@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131130014603) do
+ActiveRecord::Schema.define(:version => 20140108151629) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(:version => 20131130014603) do
   end
 
   add_index "anyous", ["parent_id"], :name => "index_anyous_on_parent_id"
+
+  create_table "binds", :force => true do |t|
+    t.string   "email"
+    t.string   "udid"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "case_contents", :force => true do |t|
     t.text     "content"
@@ -162,10 +169,8 @@ ActiveRecord::Schema.define(:version => 20131130014603) do
     t.datetime "updated_at",                          :null => false
     t.text     "receipt"
     t.boolean  "receipt_is_valid", :default => false
-    t.integer  "device_info_id"
   end
 
-  add_index "purchases", ["device_info_id"], :name => "index_purchases_on_device_info_id"
   add_index "purchases", ["user_id"], :name => "index_purchases_on_user_id"
 
   create_table "search_histories", :force => true do |t|
@@ -190,6 +195,9 @@ ActiveRecord::Schema.define(:version => 20131130014603) do
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
     t.string   "udid"
+    t.string   "registered_os"
+    t.datetime "last_logined_at"
+    t.string   "last_logined_os"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

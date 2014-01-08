@@ -6,7 +6,7 @@ module Faxin
     
     # 根据UDID获取VIP信息
     params do
-      requires :udid, type: String, desc: "udid"
+      optional :udid, type: String, desc: "udid"
       optional :email, type: String, desc: "认证token"
     end
     get '/user/vip_info' do
@@ -70,7 +70,7 @@ module Faxin
     ###################################################获取判例正文#########################################################
     # 获取判例正文
     params do
-      requires :udid, type: String, desc: "udid"
+      optional :udid, type: String, desc: "udid"
       optional :token, type: String, desc: "认证token"
     end
     get 'cases/:id/detail' do        
