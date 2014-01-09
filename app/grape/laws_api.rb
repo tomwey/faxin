@@ -110,6 +110,9 @@ module Faxin
         if @content.blank?
           return render_404_json
         end
+        if @content.law
+          @content.law.visit
+        end
         { code: 0, message: 'ok', data: { law_info: @content.law.as_json(:only => [:doc_id, :pub_dept, :impl_date]),
             body: @content.content} }
       end

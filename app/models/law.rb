@@ -76,6 +76,10 @@ class Law < ActiveRecord::Base
     end
   end
   
+  def visit
+    self.class.increment_counter(:visit_count, self.id)
+  end
+  
   
   # default_scope order('pub_date desc')
   

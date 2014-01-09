@@ -82,6 +82,8 @@ module Faxin
         end
         
         id = params[:id].to_i
+        @case = Case.find_by_case_content_id(id)
+        @case.try(:visit)
         @content = CaseContent.find_by_id(id)
         if @content.blank?
           return render_404_json

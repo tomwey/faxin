@@ -1,9 +1,40 @@
 <div class="box">
   <h2>统计</h2>
   <ul>
+    <li>>------------------------【用户信息统计】------------------------</li>
+    <li><strong>总用户：</strong><%= User.count %></li>
+    <li><strong>注册用户：</strong><%= User.registered.count %></li>
+    <li><strong>VIP用户：</strong><%= User.vip.count %></li>
+    <li>>------------------------【付费信息统计】------------------------</li>
+    <li><strong>激活次数：</strong><%= ActiveCode.actived.count %></li>
+    <li><strong>IAP购买次数：</strong><%= Purchase.count %></li>
+    <li>>------------------------【法律数据信息统计】------------------------</li>
     <li><strong>类别：</strong><%= LawType.count %></li>
     <li><strong>法律：</strong><%= Law.count %> 篇 </li>
     <li><strong>判例：</strong><%= Case.count %> 篇 </li>
+    <li>>------------------------【搜索统计】------------------------</li>
+    <li><strong>搜索总数：</strong><%= SearchHistory.sum(:search_count) %> </li>
+    <li><strong>最常搜到的关键字：</strong><%= "#{@search.keyword} (#{@search.search_count}次, 属于#{LawType.where(:id => @search.law_type_id).first.name})" %> </li>
+    <li><strong>搜索详细统计：</strong>
+      <ul>
+        <% @searches.each do |k,v| %>
+        <li><%= "#{LawType.find_by_id(k).name} - #{v}次" %></li>
+        <% end %>
+      </ul>
+    </li>
+    <li>>------------------------【法律浏览信息统计】------------------------</li>
+    <li><strong>法律浏览总数：</strong><%= Law.sum(:visit_count) %></li>
+    <li><strong>法律浏览次数最多的条文：</strong><%= "【#{@law.law_type.name}】#{@law.title}" %> </li>
+    <li><strong>法律浏览详细统计：</strong>
+      <ul>
+        <% @laws.each do |k,v| %>
+        <li><%= "#{LawType.find_by_id(k).name} - #{v}次" %></li>
+        <% end %>
+      </ul>
+    </li>
+    <li>>------------------------【判例浏览信息统计】------------------------</li>
+    <li><strong>判例浏览总数：</strong><%= Case.sum(:visit_count) %></li>
+    <li><strong>判例浏览次数最多的条文：</strong><%= "【#{@case.visit_count}次】#{@case.title}" %> </li>
   </ul>
 </div>
 

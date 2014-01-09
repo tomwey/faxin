@@ -1,6 +1,8 @@
 class SearchHistory < ActiveRecord::Base
   attr_accessible :keyword, :law_type_id, :search_count
   
+  belongs_to :law_type
+  
   def search
     self.class.increment_counter(:search_count, self.id)
   end

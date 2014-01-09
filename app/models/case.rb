@@ -79,6 +79,10 @@ class Case < ActiveRecord::Base
     end
   end
   
+  def visit
+    self.class.increment_counter(:visit_count, self.id)
+  end
+  
   # def publish_date
   #   if created_at
   #     created_at.to_time.strftime('%Y-%m-%d')

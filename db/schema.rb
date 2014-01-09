@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140108151629) do
+ActiveRecord::Schema.define(:version => 20140109140904) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -59,8 +59,9 @@ ActiveRecord::Schema.define(:version => 20140108151629) do
     t.string   "summary"
     t.integer  "case_content_id"
     t.integer  "anyou_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
+    t.integer  "visit_count",     :default => 0
   end
 
   add_index "cases", ["anyou_id"], :name => "index_cases_on_anyou_id"
@@ -147,8 +148,9 @@ ActiveRecord::Schema.define(:version => 20140108151629) do
     t.integer  "law_type_id"
     t.integer  "location_id"
     t.integer  "law_content_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.integer  "visit_count",    :default => 0
   end
 
   add_index "laws", ["law_content_id"], :name => "index_laws_on_law_content_id", :unique => true

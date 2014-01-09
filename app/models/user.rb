@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   
   has_many :purchases, :dependent => :destroy
   
+  scope :registered, where('udid is not null')
+  scope :vip, where('vip_expired_at is not null and vip_expired_at > now()')
   
   VERIFY_SANDBOX = 'https://sandbox.itunes.apple.com/verifyReceipt'
   VERIFY_PRODUCTION = 'https://buy.itunes.apple.com/verifyReceipt'
