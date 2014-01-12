@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140109140904) do
+ActiveRecord::Schema.define(:version => 20140112145410) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -47,9 +47,9 @@ ActiveRecord::Schema.define(:version => 20140109140904) do
   end
 
   create_table "case_contents", :force => true do |t|
-    t.text     "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "content",    :limit => 16777215
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "cases", :force => true do |t|
@@ -109,9 +109,9 @@ ActiveRecord::Schema.define(:version => 20140109140904) do
   add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
 
   create_table "law_contents", :force => true do |t|
-    t.text     "content",    :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.text     "content",    :limit => 16777215, :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   create_table "law_track_contents", :force => true do |t|
