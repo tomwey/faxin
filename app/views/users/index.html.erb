@@ -1,0 +1,34 @@
+<div class="box">
+  <div class="row-fluid">
+    <div class="span8"><h2>用户列表</h2></div>
+  </div>
+
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>用户</th>
+      <th>过期时间</th>
+      <th>购买次数</th>
+      <th>注册设备</th>
+      <th>最后登录设备</th>
+      <th>最后登录时间</th>
+      <th></th>
+    </tr>
+  
+    <% @users.each do |user| %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= render_user_tag(user) %></td>
+      <td><%= render_user_expired_at(user) %></td>
+      <td><%= user.purchases_count %></td>
+      <td><%= render_user_reg_os(user) %></td>
+      <td><%= user.last_logined_os %></td>
+      <td><%= user.last_logined_at %></td>
+      <td><%= link_to '修改过期时间', [:edit, user], :class => "btn btn-mini" %></td>
+    </tr>
+    <% end %>
+  
+  </table>
+  <div style="text-align:center;"><%= will_paginate @users %></div>
+</div>
+

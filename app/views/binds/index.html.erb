@@ -1,0 +1,29 @@
+<div class="box">
+  <div class="row-fluid">
+    <div class="span8"><h2>绑定列表</h2></div>
+    <div class="span4" style="text-align:right"><%= link_to "添加绑定", new_bind_path, :class => "btn btn-success" %></div>
+  </div>
+
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>用户</th>
+      <th>UDID</th>
+      <th>绑定时间</th>
+      <th></th>
+    </tr>
+  
+    <% @binds.each do |bind| %>
+    <tr>
+      <td><%= bind.id %></td>
+      <td><%= bind.email %></td>
+      <td><%= bind.udid %></td>
+      <td><%= bind.created_at %></td>
+      <td><%= link_to '编辑', [:edit, bind], :class => "btn btn-mini" %></td>
+    </tr>
+    <% end %>
+  
+  </table>
+  <div style="text-align:center;"><%= will_paginate @binds %></div>
+</div>
+

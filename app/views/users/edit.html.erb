@@ -1,0 +1,6 @@
+<%= form_tag user_path, :class => "form-horizontal", :method => :put do %>
+  <fieldset>
+    <%= text_field_tag :month, params[:month], :placeholder => "有效期" %>
+    <%= submit_tag "修改",  :class => "btn btn-success" %>
+  </fieldset>
+<% end %>

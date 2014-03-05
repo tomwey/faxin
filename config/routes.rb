@@ -9,7 +9,7 @@ Faxin::Application.routes.draw do
   get "login", to: "sessions#new", as: "login"
   get "logout", to: 'sessions#destroy', as: "logout"
   
-  resources :users
+  resources :users, :except => [:destroy]
   resources :sessions
 
   resources :law_types
@@ -17,6 +17,9 @@ Faxin::Application.routes.draw do
   
   resources :anyous
   resources :cases
+  
+  resources :purchases, only: [:index]
+  resources :binds, only: [:index, :new, :create, :edit, :update]
   
   resources :active_codes, only: [:index,:new,:create, :buy, :unbuy, :destroy] do
     member do

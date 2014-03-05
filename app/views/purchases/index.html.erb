@@ -1,0 +1,26 @@
+<div class="box">
+  <div class="row-fluid">
+    <div class="span8"><h2>购买列表</h2></div>
+  </div>
+
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>用户</th>
+      <th>购买月数</th>
+      <th>解锁时间</th>
+    </tr>
+  
+    <% @purchases.each do |purchase| %>
+    <tr>
+      <td><%= purchase.id %></td>
+      <td><%= render_user_name(purchase) %></td>
+      <td><%= purchase.content %></td>
+      <td><%= purchase.created_at %></td>
+    </tr>
+    <% end %>
+  
+  </table>
+  <div style="text-align:center;"><%= will_paginate @purchases %></div>
+</div>
+

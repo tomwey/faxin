@@ -1,0 +1,25 @@
+<%= form_for @bind, :html => { :class => "form-horizontal" } do |f| %>
+<fieldset>
+  <div class="control-group">
+    <%= f.label :email, "邮箱", :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_field :email, :class => "input-xlarge" %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <%= f.label :udid, "UDID", :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_field :udid, :class => "input-xlarge" %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <%= f.submit "保存", :class => "btn btn-primary", :disable_with => '正在提交...' %>
+    </div>
+  </div>
+  
+</fieldset>
+
+<% end %>
