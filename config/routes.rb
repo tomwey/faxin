@@ -20,6 +20,11 @@ Faxin::Application.routes.draw do
   
   resources :purchases, only: [:index]
   resources :binds, only: [:index, :new, :create, :edit, :update]
+  resources :invites, only: [:index, :new, :create, :active] do
+    member do
+      put :active
+    end
+  end
   
   resources :active_codes, only: [:index,:new,:create, :buy, :unbuy, :destroy] do
     member do

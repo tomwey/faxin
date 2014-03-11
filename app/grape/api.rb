@@ -9,6 +9,7 @@ require 'laws_api'
 require 'cases_api'
 require 'active_api'
 require 'law_content_api'
+require 'invite_api'
 
 module Faxin
   class API < Grape::API
@@ -24,6 +25,8 @@ module Faxin
     mount LawTypeAPI
     mount CasesAPI
     mount LawsAPI
+    
+    mount InviteAPI
     
     # 此接口专为ios正式版
     mount LawContentAPI

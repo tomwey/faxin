@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140112145410) do
+ActiveRecord::Schema.define(:version => 20140311152456) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -108,6 +108,19 @@ ActiveRecord::Schema.define(:version => 20140112145410) do
 
   add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
 
+  create_table "invites", :force => true do |t|
+    t.string   "code"
+    t.string   "invitee_email"
+    t.integer  "user_id"
+    t.boolean  "is_actived",    :default => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+  end
+
+  add_index "invites", ["code"], :name => "index_invites_on_code", :unique => true
+  add_index "invites", ["invitee_email"], :name => "index_invites_on_invitee_email"
+  add_index "invites", ["user_id"], :name => "index_invites_on_user_id"
+
   create_table "law_contents", :force => true do |t|
     t.text     "content",    :limit => 16777215, :null => false
     t.datetime "created_at",                     :null => false
@@ -200,6 +213,7 @@ ActiveRecord::Schema.define(:version => 20140112145410) do
     t.string   "registered_os"
     t.datetime "last_logined_at"
     t.string   "last_logined_os"
+    t.integer  "invites_count",          :default => 0
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

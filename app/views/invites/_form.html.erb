@@ -1,0 +1,25 @@
+<%= form_for @invite, :html => { :class => "form-horizontal" } do |f| %>
+<fieldset>
+  <div class="control-group">
+    <%= f.label :invitee_email, "被邀请者邮箱", :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_field :invitee_email, :class => "input-xlarge" %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <%= f.label :user_id, "用户ID", :class => "control-label" %>
+    <div class="controls">
+      <%= f.text_field :user_id %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <%= f.submit "保存", :class => "btn btn-primary", :disable_with => '正在提交...' %>
+    </div>
+  </div>
+  
+</fieldset>
+
+<% end %>

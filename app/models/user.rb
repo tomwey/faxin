@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   attr_protected :is_vip, :private_token
   
   has_many :purchases, :dependent => :destroy
+  has_many :invites
   
   scope :registered, where('udid is not null')
   scope :vip, where('vip_expired_at is not null and vip_expired_at > now()')
