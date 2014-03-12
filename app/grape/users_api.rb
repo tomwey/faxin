@@ -66,6 +66,7 @@ module Faxin
       params do
         requires :email, type: String, desc: "邮箱"
         requires :password, type: String, desc: "密码"
+        optional :code, type: String, desc: "邀请码"
       end
       post '/' do
         
@@ -83,6 +84,20 @@ module Faxin
           warden.set_user(@user)
           @user.registered_os = os_name
           @user.ensure_private_token!
+          
+          # 如果传了邀请码，那么尝试激活邀请
+          if params[:code]
+            invite = Invite.find_by_invitee_email_and_code(params[:email], params[:code])
+            if invite and not invite.is_actived
+              Invite.transaction do
+                invite.update_attribute("is_actived", true)
+          
+                # 送给用户1个月vip数据使用
+                invite.user.update_vip_status(1)
+              end
+            end
+          end
+          
           render_success_with_data(@user)
         else
           render_error_json_no_data(1003, '注册用户失败')

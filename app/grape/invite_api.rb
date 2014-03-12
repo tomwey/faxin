@@ -32,37 +32,37 @@ module Faxin
       end
       
       # 激活邀请
-      params do
-        requires :code, type: String, desc: "邀请码"
-        requires :token, type: String, desc: '认证token'
-      end
-      post '/active' do
-        # 首先需要登录
-        user = authenticate!
-        
-        invite = Invite.find_by_code(params[:code])
-        if invite.blank?
-          return render_error_json_no_data(5003, '该邀请码无效') 
-        end
-        
-        if invite.is_actived
-          return render_error_json_no_data(5004, '该邀请码已经被激活过') 
-        end
-        
-        if invite.user == user
-          return render_error_json_no_data(5005, '非法邀请码激活操作') 
-        end
-        
-        # 激活邀请，并送给邀请人1个月vip数据使用
-        Invite.transaction do
-          invite.update_attribute("is_actived", true)
-          
-          # 送给用户1个月vip数据使用
-          invite.user.update_vip_status(1)
-        end
-        
-        render_success
-      end
+      # params do
+      #   requires :code, type: String, desc: "邀请码"
+      #   requires :token, type: String, desc: '认证token'
+      # end
+      # post '/active' do
+      #   # 首先需要登录
+      #   user = authenticate!
+      #   
+      #   invite = Invite.find_by_code(params[:code])
+      #   if invite.blank?
+      #     return render_error_json_no_data(5003, '该邀请码无效') 
+      #   end
+      #   
+      #   if invite.is_actived
+      #     return render_error_json_no_data(5004, '该邀请码已经被激活过') 
+      #   end
+      #   
+      #   if invite.user == user
+      #     return render_error_json_no_data(5005, '非法邀请码激活操作') 
+      #   end
+      #   
+      #   # 激活邀请，并送给邀请人1个月vip数据使用
+      #   Invite.transaction do
+      #     invite.update_attribute("is_actived", true)
+      #     
+      #     # 送给用户1个月vip数据使用
+      #     invite.user.update_vip_status(1)
+      #   end
+      #   
+      #   render_success
+      # end
       
     end # end resource
     
