@@ -90,13 +90,15 @@ module Faxin
             invite = Invite.find_by_invitee_email_and_code(params[:email], params[:code])
             if invite and not invite.is_actived
               Invite.transaction do
-                invite.update_attribute("is_actived", true)
+                if invite.user
+                  invite.update_attribute("is_actived", true)
           
-                # 送给用户1个月vip数据使用
-                invite.user.update_vip_status(1)
-              end
-            end
-          end
+                   # 送给用户1个月vip数据使用
+                   invite.user.update_vip_status(1)
+               end # end if
+              end # end transaction
+            end # end if
+          end # end if
           
           render_success_with_data(@user)
         else
