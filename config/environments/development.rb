@@ -15,6 +15,11 @@ Faxin::Application.configure do
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
+  
+  # config.action_mailer.default_options = { from: "no-reply@kekestudio.com" }
+  # config.action_mailer.sendmail_settings = {
+  #   :arguments => '-i -t -f no-reply@kekestudio.com'
+  # }
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log

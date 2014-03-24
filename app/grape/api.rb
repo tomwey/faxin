@@ -11,6 +11,8 @@ require 'active_api'
 require 'law_content_api'
 require 'invite_api'
 
+require 'data_import_api'
+
 module Faxin
   class API < Grape::API
     prefix :api
@@ -30,6 +32,9 @@ module Faxin
     
     # 此接口专为ios正式版
     mount LawContentAPI
+    
+    # 录入数据接口
+    # mount DataImportAPI
     
   end
 

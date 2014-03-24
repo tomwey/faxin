@@ -1,6 +1,6 @@
 # coding:utf-8
 class InviteMailer < ActionMailer::Base
-  default :from => "kekestudio@sina.com"
+  default :from => "no-reply@kekestudio.com"
   
   def send_code(invite)
     @invite = invite
