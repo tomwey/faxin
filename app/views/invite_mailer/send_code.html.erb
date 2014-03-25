@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <div style="border: 1px solid #ccc; padding: 20px; font-size: 14px; width: 620px;">
+    <h2>亲，你的朋友 <%= @invite.user.email %> 邀请你加入《法信-法律图书馆》</h2>
+    <p>邀请码：<%= @invite.code %>  （<span style="color:gray;">注意区分大小写</span>）</p>
+    <p>如果您不想激活邀请，那么可以忽略该邮件。</p>
+    <h2>成功加入法信还需要两步哦：</h2>
+    <ul>
+      <li><div>
+        <h4>下载《法信-法律图书馆》</h4>
+        <p>iOS版地址：<a href="https://itunes.apple.com/us/app/fa-xin-fa-lu-tu-shu-guan/id691747755?ls=1&mt=8">https://itunes.apple.com/us/app/fa-xin-fa-lu-tu-shu-guan/id691747755?ls=1&mt=8</a></p>
+        <p>Android版地址：<a href="http://www.wandoujia.com/apps/com.example.myfaxin">http://www.wandoujia.com/apps/com.example.myfaxin</a></p>
+      </div></li>
+      <li>需要注册我们的会员，并激活邀请码，那么你和你的朋友都将获得1个月VIP数据免费使用哦，快快注册吧！！！</li>
+    </ul>
+    </div>
+  </body>
+</html>

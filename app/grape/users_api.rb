@@ -93,12 +93,17 @@ module Faxin
                 if invite.user
                   invite.update_attribute("is_actived", true)
           
-                   # 送给用户1个月vip数据使用
+                   # 送给邀请者1个月vip数据使用
                    invite.user.update_vip_status(1)
+                   # 送自己一个月
+                   @user.update_vip_status(1)
                end # end if
               end # end transaction
             end # end if
           end # end if
+          
+          # 发欢迎邮件
+          UserMailer.welcome(@user).deliver
           
           render_success_with_data(@user)
         else
