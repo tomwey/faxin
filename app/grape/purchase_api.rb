@@ -14,7 +14,6 @@ module Faxin
         optional :udid, type: String, desc: "udid"
       end
       post '/verify' do
-        # user = authenticate!
         
         purchase = Purchase.find_by_receipt(params[:receipt])
         
