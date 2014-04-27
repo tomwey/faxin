@@ -94,12 +94,14 @@ module Faxin
                   invite.update_attribute("is_actived", true)
           
                    # 送给邀请者1个月vip数据使用
-                   invite.user.update_vip_status(1)
+                   invite.user.update_vip_status(2)
                    # 送自己一个月
-                   @user.update_vip_status(1)
+                   @user.update_vip_status(2)
                end # end if
               end # end transaction
             end # end if
+          else
+            @user.update_vip_status(2)
           end # end if
           
           # 发欢迎邮件
