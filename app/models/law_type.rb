@@ -2,6 +2,7 @@ class LawType < ActiveRecord::Base
   attr_accessible :name
   
   has_many :laws
+  has_many :favorites
   
   def self.all_types
     types = []

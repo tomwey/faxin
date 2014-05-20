@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
   
   has_many :purchases, :dependent => :destroy
   has_many :invites
+  has_many :favorites
   
   scope :registered, where('udid is not null')
   scope :vip, where('vip_expired_at is not null and vip_expired_at > now()')

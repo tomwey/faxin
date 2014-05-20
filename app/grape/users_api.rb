@@ -229,77 +229,77 @@ module Faxin
     end
     
     ######################## 收藏相关API ################################
-    resource "user" do
-      # 获取所有的收藏
-      params do
-        requires :token, type: String, desc: "认证token"
-      end
-      get '/favorites' do
-        user = authenticate!
-        
-        favorite = Favorite.find_by_user_id(user.id)
-        
-        unless favorite
-          return render_404_json
-        end
-        
-        content = favorite.content
-        
-        unless content
-          return render_404_json
-        end
-        
-        # 1,1:2,3:2,1:2,3
-        ids = content.split(':')
-        result = []
-        ids.each do |s_id|
-          tid, id = s_id.split(',')
-          if tid.to_i == 1
-            @law = Law.find_by_law_content_id(id.to_i)
-            unless @law
-              return render_404_json
-            end
-            result << { id: @law.law_content_id, title: @law.title, pub_date: @law.pub_date, type_name: @law.law_type_name }
-          else
-            @case = Case.find_by_case_content_id(id.to_i)
-            unless @case
-              return render_404_json
-            end
-            result << { id: @case.case_content_id, title: @case.title, pub_date: @case.created_at.try(:strftime,'%Y-%m-%d'), 
-                        type_name: @case.law_type_name }
-          end # if
-        end # each
-        
-        if result.empty?
-          return render_404_json
-        end
-        
-        render_success_with_data(result)
-      end
-      
-      # 收藏
-      params do
-        requires :token, type: String, desc: "认证token"
-        requires :content, type: String, desc: "收藏的内容"
-      end
-      post '/favorite' do
-        user = authenticate!
-        
-        content = params[:content]
-        unless content
-          return render_error_json_no_data(2002, '收藏的内容不能为空')
-        end
-        
-        f = Favorite.find_by_user_id(user.id)
-        if f.blank?
-          Favorite.create!(content: content, user_id: user.id)
-        else
-          f.content = content
-          f.save!
-        end
-        
-        render_success
-      end
-    end
+    # resource "user" do
+    #   # 获取所有的收藏
+    #   params do
+    #     requires :token, type: String, desc: "认证token"
+    #   end
+    #   get '/favorites' do
+    #     user = authenticate!
+    #     
+    #     favorite = Favorite.find_by_user_id(user.id)
+    #     
+    #     unless favorite
+    #       return render_404_json
+    #     end
+    #     
+    #     content = favorite.content
+    #     
+    #     unless content
+    #       return render_404_json
+    #     end
+    #     
+    #     # 1,1:2,3:2,1:2,3
+    #     ids = content.split(':')
+    #     result = []
+    #     ids.each do |s_id|
+    #       tid, id = s_id.split(',')
+    #       if tid.to_i == 1
+    #         @law = Law.find_by_law_content_id(id.to_i)
+    #         unless @law
+    #           return render_404_json
+    #         end
+    #         result << { id: @law.law_content_id, title: @law.title, pub_date: @law.pub_date, type_name: @law.law_type_name }
+    #       else
+    #         @case = Case.find_by_case_content_id(id.to_i)
+    #         unless @case
+    #           return render_404_json
+    #         end
+    #         result << { id: @case.case_content_id, title: @case.title, pub_date: @case.created_at.try(:strftime,'%Y-%m-%d'), 
+    #                     type_name: @case.law_type_name }
+    #       end # if
+    #     end # each
+    #     
+    #     if result.empty?
+    #       return render_404_json
+    #     end
+    #     
+    #     render_success_with_data(result)
+    #   end
+    #   
+    #   # 收藏
+    #   params do
+    #     requires :token, type: String, desc: "认证token"
+    #     requires :content, type: String, desc: "收藏的内容"
+    #   end
+    #   post '/favorite' do
+    #     user = authenticate!
+    #     
+    #     content = params[:content]
+    #     unless content
+    #       return render_error_json_no_data(2002, '收藏的内容不能为空')
+    #     end
+    #     
+    #     f = Favorite.find_by_user_id(user.id)
+    #     if f.blank?
+    #       Favorite.create!(content: content, user_id: user.id)
+    #     else
+    #       f.content = content
+    #       f.save!
+    #     end
+    #     
+    #     render_success
+    #   end
+    # end
   end
 end

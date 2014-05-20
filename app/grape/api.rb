@@ -10,6 +10,7 @@ require 'cases_api'
 require 'active_api'
 require 'law_content_api'
 require 'invite_api'
+require 'favorites_api'
 
 require 'data_import_api'
 
@@ -27,6 +28,8 @@ module Faxin
     mount LawTypeAPI
     mount CasesAPI
     mount LawsAPI
+    
+    mount FavoritesAPI
     
     mount InviteAPI
     
