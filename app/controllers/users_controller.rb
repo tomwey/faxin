@@ -8,6 +8,11 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
   
+  def search
+    @users = User.where("email like ?", "%#{params[:q]}%").paginate :page => params[:page], :per_page => 30
+    render :index
+  end
+  
   def update
     @user = User.find(params[:id])
     month = params[:month].to_i

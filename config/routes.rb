@@ -9,7 +9,11 @@ Faxin::Application.routes.draw do
   get "login", to: "sessions#new", as: "login"
   get "logout", to: 'sessions#destroy', as: "logout"
   
-  resources :users, :except => [:destroy]
+  resources :users, :except => [:destroy] do
+    collection do 
+      get :search
+    end
+  end
   resources :sessions
 
   resources :law_types

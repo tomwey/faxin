@@ -11,6 +11,7 @@ require 'active_api'
 require 'law_content_api'
 require 'invite_api'
 require 'favorites_api'
+require 'reports_api'
 
 require 'data_import_api'
 
@@ -32,6 +33,8 @@ module Faxin
     mount FavoritesAPI
     
     mount InviteAPI
+    
+    mount ReportsAPI
     
     # 此接口专为ios正式版
     mount LawContentAPI
