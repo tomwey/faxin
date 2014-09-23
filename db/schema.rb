@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140614150609) do
+ActiveRecord::Schema.define(:version => 20140921151208) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -170,6 +170,12 @@ ActiveRecord::Schema.define(:version => 20140614150609) do
     t.datetime "updated_at",                     :null => false
   end
 
+  create_table "law_tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "law_track_contents", :force => true do |t|
     t.text     "content"
     t.datetime "created_at", :null => false
@@ -212,6 +218,38 @@ ActiveRecord::Schema.define(:version => 20140614150609) do
   add_index "laws", ["law_content_id"], :name => "index_laws_on_law_content_id", :unique => true
   add_index "laws", ["law_type_id"], :name => "index_laws_on_law_type_id"
   add_index "laws", ["location_id"], :name => "index_laws_on_location_id"
+
+  create_table "lawyer_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "lawyer_types_lawyers", :id => false, :force => true do |t|
+    t.integer "lawyer_id"
+    t.integer "lawyer_type_id"
+  end
+
+  create_table "lawyers", :force => true do |t|
+    t.string   "real_name"
+    t.string   "lawyer_card"
+    t.string   "city"
+    t.string   "law_firm"
+    t.string   "lawyer_card_image"
+    t.string   "mobile"
+    t.text     "intro"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.integer  "state",             :default => 1
+  end
+
+  add_index "lawyers", ["lawyer_card"], :name => "index_lawyers_on_lawyer_card", :unique => true
+  add_index "lawyers", ["mobile"], :name => "index_lawyers_on_mobile", :unique => true
+
+  create_table "lawyers_lawyer_types", :id => false, :force => true do |t|
+    t.integer "lawyer_id"
+    t.integer "lawyer_type_id"
+  end
 
   create_table "locations", :force => true do |t|
     t.string   "name"
@@ -266,11 +304,17 @@ ActiveRecord::Schema.define(:version => 20140614150609) do
     t.datetime "last_logined_at"
     t.string   "last_logined_os"
     t.integer  "invites_count",          :default => 0
+    t.integer  "profile_id"
+    t.string   "profile_type"
+    t.string   "avatar"
+    t.string   "nickname"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
   add_index "users", ["password_reset_token"], :name => "index_users_on_password_reset_token"
   add_index "users", ["private_token"], :name => "index_users_on_private_token"
+  add_index "users", ["profile_id"], :name => "index_users_on_profile_id"
+  add_index "users", ["profile_type"], :name => "index_users_on_profile_type"
   add_index "users", ["udid"], :name => "index_users_on_udid", :unique => true
 
 end

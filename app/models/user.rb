@@ -19,8 +19,12 @@ class User < ActiveRecord::Base
   has_many :invites
   has_many :favorites
   
+  belongs_to :profile, polymorphic: true
+  
   scope :registered, where('udid is not null')
   scope :vip, where('vip_expired_at is not null and vip_expired_at > now()')
+  
+  mount_uploader :avatar, AvatarUploader
   
   VERIFY_SANDBOX = 'https://sandbox.itunes.apple.com/verifyReceipt'
   VERIFY_PRODUCTION = 'https://buy.itunes.apple.com/verifyReceipt'
@@ -69,6 +73,39 @@ class User < ActiveRecord::Base
       is_vip: self.is_vip,
       expired_at: self.user_expired_at
     }
+  end
+  
+  def handle_nickname
+    name = if self.profile_type == 'Lawyer'
+      self.profile.try(:real_name)
+    elsif self.nickname.blank?
+      self.email.split('@')[0]
+    else
+      self.nickname
+    end
+    name
+  end
+  
+  def to_json
+    result = {
+      nickname: self.handle_nickname,
+      email: self.email,
+      avatar_url: self.avatar.url(:normal),
+    }
+    
+    if self.profile_type == 'Lawyer'
+      result[:profile] = {
+        real_name: self.profile.try(:real_name),
+        state: self.profile.try(:state),
+        city: self.profile.try(:city),
+        mobile: self.profile.try(:mobile),
+        intro: self.profile.try(:intro),
+        lawyer_card: self.profile.try(:lawyer_card),
+        law_firm: self.profile.try(:law_firm)
+      } 
+    end
+    
+    result
   end
   
   def user_expired_at

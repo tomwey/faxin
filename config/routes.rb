@@ -5,6 +5,7 @@ Faxin::Application.routes.draw do
   # }
 
   require 'api'
+  require 'api_v2'
   
   get "login", to: "sessions#new", as: "login"
   get "logout", to: 'sessions#destroy', as: "logout"
@@ -44,5 +45,6 @@ Faxin::Application.routes.draw do
   root to: "home#index"
   
   mount Faxin::API => '/'
+  mount Faxin::APIV2 => '/'
   
 end

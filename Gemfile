@@ -21,6 +21,9 @@ gem 'sunspot_solr'
 
 gem 'progress_bar'
 
+gem 'carrierwave'
+gem 'mini_magick'
+
 # 分页
 gem 'will_paginate'
 

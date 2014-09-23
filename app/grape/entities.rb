@@ -3,6 +3,35 @@ module Faxin
     class LawType < Grape::Entity
       expose :id, :name, :laws_count
     end
+    
+    class LawyerDetail < Grape::Entity
+      expose :real_name, :mobile, :city, :lawyer_card, :law_firm, :intro
+    end
+    
+    class UserDetail < Grape::Entity
+      expose :nickname do |model, opts|
+        if model.profile_type == 'Lawyer'
+          model.profile.try(:real_name)
+        elsif model.nickname.blank?
+          model.email.split('@')[0]
+        else
+          model.nickname
+        end
+      end
+      expose :email
+      expose :avatar_url do |model, opts|
+        model.avatar.url(:normal)
+      end
+      # expose :profile, if: lambda { |model, opts| model.profile_type == 'Lawyer' } do |model, opts|
+      #   expose :state
+      #   expose :real_name
+      #   expose :city
+      #   expose :lawyer_firm
+      #   expose :mobile
+      #   expose :lawyer_card
+      #   expose :intro
+      # end
+    end
   
     class LawDetail < Grape::Entity
       expose :law_content_id, { :as => 'id' }
