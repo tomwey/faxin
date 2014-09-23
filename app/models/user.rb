@@ -91,6 +91,7 @@ class User < ActiveRecord::Base
       nickname: self.handle_nickname,
       email: self.email,
       avatar_url: self.avatar.url(:normal),
+      token: self.private_token,
     }
     
     if self.profile_type == 'Lawyer'
