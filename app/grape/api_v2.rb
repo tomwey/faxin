@@ -1,6 +1,8 @@
 # coding: utf-8
 require 'entities'
 require 'helpers'
+require 'cases_api_v2'
+require 'favorites_api_v2'
 
 module Faxin
   class APIV2 < Grape::API
@@ -9,6 +11,9 @@ module Faxin
     format :json
     
     helpers APIHelpers
+    
+    mount CasesAPIV2
+    mount FavoritesAPIV2
     
     ######################## 用户相关接口 ###################################
     use Rack::Session::Cookie, :secret => "1175ebb529d2cc7b6523755577dc298fba3a8587b01242751bf6c4d285b4178fc71616e9ea830a078a5f4cd3c5e33822fa008ae4bb4dc512028dc3a8da24c8f4" 

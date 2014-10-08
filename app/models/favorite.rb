@@ -1,21 +1,30 @@
 class Favorite < ActiveRecord::Base
-  attr_accessible :content, :user_id, :law_type_id, :law_article_id, :operation_method, :visible, :favorite_type, :favorited_at
+  attr_accessible :content, :user_id, :law_type_id, :law_article_id, :state, :visible, :favorite_type, :favorited_at, :law_title, :folder_id
                   
   belongs_to :law_type
+  belongs_to :folder
+  belongs_to :user
   
   def as_json(options)
     {
       id: self.id,
-      content: self.favorite_content,
+      law_title: self.law_title || "",
+      favorite_content: self.content || "",
       favorited_at: self.favorited_date,
       favorite_type: self.favorite_type,
       article_id: self.law_article_id,
-      law_type_id: self.law_type_id
-      # law_type: {
-      #   id: self.law_type_id,
-      #   name: self.law_type_name
-      # }
+      state: self.state,
+      user_email: self.user.try(:email),
+      law_type: {
+        id: self.law_type_id,
+        name: self.law_type_name
+      }
     }
+  end
+  
+  after_create :add_version
+  def add_version
+    self.class.increment_counter(:version, self.id) if self.visible == true
   end
   
   def favorite_content

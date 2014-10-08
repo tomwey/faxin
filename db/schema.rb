@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140921151208) do
+ActiveRecord::Schema.define(:version => 20141008154655) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -102,20 +102,37 @@ ActiveRecord::Schema.define(:version => 20140921151208) do
   create_table "favorites", :force => true do |t|
     t.text     "content"
     t.integer  "user_id"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
     t.integer  "law_type_id"
     t.integer  "law_article_id"
-    t.string   "operation_method", :default => "A"
-    t.boolean  "visible",          :default => true
-    t.integer  "favorite_type",    :default => 1
+    t.string   "state",          :default => "A"
+    t.boolean  "visible",        :default => true
+    t.integer  "favorite_type",  :default => 1
     t.datetime "favorited_at"
+    t.integer  "version",        :default => 0
+    t.string   "law_title"
+    t.integer  "folder_id"
   end
 
   add_index "favorites", ["favorited_at"], :name => "index_favorites_on_favorited_at"
+  add_index "favorites", ["folder_id"], :name => "index_favorites_on_folder_id"
   add_index "favorites", ["law_article_id"], :name => "index_favorites_on_law_article_id"
   add_index "favorites", ["law_type_id"], :name => "index_favorites_on_law_type_id"
   add_index "favorites", ["user_id"], :name => "index_favorites_on_user_id"
+  add_index "favorites", ["version"], :name => "index_favorites_on_version"
+
+  create_table "folders", :force => true do |t|
+    t.string   "name"
+    t.integer  "user_id"
+    t.integer  "version"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+    t.string   "state"
+    t.boolean  "visible",    :default => true
+  end
+
+  add_index "folders", ["user_id"], :name => "index_folders_on_user_id"
 
   create_table "invites", :force => true do |t|
     t.string   "code"

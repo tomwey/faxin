@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
   has_many :purchases, :dependent => :destroy
   has_many :invites
   has_many :favorites
+  has_many :folders
   
   belongs_to :profile, polymorphic: true
   
