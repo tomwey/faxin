@@ -1,0 +1,25 @@
+<div class="box">
+
+  <table class="table table-striped">
+    <tr>
+      <th>#</th>
+      <th>法律标题</th>
+      <th>法律类别</th>
+      <th>纠错内容</th>
+      <th>at</th>
+    </tr>
+    <% @reports.each do |report| %>
+      <tr>
+        <td width="5%"><%= report.id %></td>
+        <td width="17%"><%= report.law_title %></td>
+        <td width="10%"><%= report.law_type_name %></td>
+        <td width="50%"><%= report.content %> 
+        <td width="18%"><%= report.created_at %></td>
+      </tr>
+    <% end %>
+  
+  </table>
+  
+  <div style="text-align:center"><%= will_paginate @reports %></div>
+</div>
+

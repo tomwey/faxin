@@ -22,6 +22,7 @@ Faxin::Application.routes.draw do
   
   resources :anyous
   resources :cases
+  resources :reports
   
   resources :purchases, only: [:index]
   resources :binds, only: [:index, :new, :create, :edit, :update]
