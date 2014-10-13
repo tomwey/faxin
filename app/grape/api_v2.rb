@@ -13,8 +13,8 @@ module Faxin
     
     helpers APIHelpers
     
-    mount CasesAPIV2
     # mount CasesAPIV3
+    mount CasesAPIV2
     mount FavoritesAPIV2
     
     ######################## 用户相关接口 ###################################

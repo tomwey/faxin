@@ -45,7 +45,7 @@ module Faxin
         errors = []
         temp = []
         array.each do |item|
-          om = item['om']
+          om = item['state']
           if om == 'A'
             # 新建
             folder = Folder.new

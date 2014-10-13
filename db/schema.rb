@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141012154443) do
+ActiveRecord::Schema.define(:version => 20141013152316) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -148,22 +148,13 @@ ActiveRecord::Schema.define(:version => 20141012154443) do
   add_index "invites", ["user_id"], :name => "index_invites_on_user_id"
 
   create_table "judge_paper_contents", :force => true do |t|
-    t.text     "content",    :limit => 2147483647
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.text     "content",    :limit => 16777215
     t.integer  "content_id"
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
   end
 
   add_index "judge_paper_contents", ["content_id"], :name => "index_judge_paper_contents_on_content_id", :unique => true
-
-  create_table "judge_paper_types", :force => true do |t|
-    t.string   "name"
-    t.integer  "judge_papers_count", :default => 0
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-  end
-
-  add_index "judge_paper_types", ["judge_papers_count"], :name => "index_judge_paper_types_on_judge_papers_count"
 
   create_table "judge_papers", :force => true do |t|
     t.string   "title"
@@ -172,14 +163,14 @@ ActiveRecord::Schema.define(:version => 20141012154443) do
     t.string   "commited_at"
     t.integer  "sort"
     t.integer  "content_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
     t.integer  "visit_count", :default => 0
     t.integer  "type_id"
+    t.datetime "created_at",                 :null => false
+    t.datetime "updated_at",                 :null => false
   end
 
   add_index "judge_papers", ["commited_at"], :name => "index_judge_papers_on_commited_at"
-  add_index "judge_papers", ["content_id"], :name => "index_judge_papers_on_content_id"
+  add_index "judge_papers", ["content_id"], :name => "index_judge_papers_on_content_id", :unique => true
   add_index "judge_papers", ["sort"], :name => "index_judge_papers_on_sort"
   add_index "judge_papers", ["type_id"], :name => "index_judge_papers_on_type_id"
 
