@@ -2,6 +2,7 @@
 require 'entities'
 require 'helpers'
 require 'cases_api_v2'
+require 'cases_api_v3'
 require 'favorites_api_v2'
 
 module Faxin
@@ -13,6 +14,7 @@ module Faxin
     helpers APIHelpers
     
     mount CasesAPIV2
+    # mount CasesAPIV3
     mount FavoritesAPIV2
     
     ######################## 用户相关接口 ###################################

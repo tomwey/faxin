@@ -15,6 +15,7 @@ class Favorite < ActiveRecord::Base
       article_id: self.law_article_id,
       state: self.state,
       user_email: self.user.try(:email),
+      folder_id: self.folder.id,
       law_type: {
         id: self.law_type_id,
         name: self.law_type_name
