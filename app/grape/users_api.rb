@@ -169,7 +169,7 @@ module Faxin
         requires :password_confirmation, type: String, desc: "确认密码"
       end
       post '/password/reset' do
-        @user = User.find_by_password_reset_token!(params[:code])
+        @user = User.find_by_password_reset_token(params[:code])
         
         unless @user
           return render_error_json_no_data(1007, '重置验证码不正确')
