@@ -3,6 +3,8 @@ class Folder < ActiveRecord::Base
   
   validates :name, :user_id, presence: true
   
+  attr_accessor :client_id
+  
   belongs_to :user
   
   has_many :favorites
@@ -13,7 +15,8 @@ class Folder < ActiveRecord::Base
       name: self.name || "",
       user_email: self.user.try(:email),
       version: self.version,
-      state: self.state
+      state: self.state,
+      client_id: self.client_id
     }
   end
   

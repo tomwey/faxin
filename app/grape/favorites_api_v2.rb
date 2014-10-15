@@ -54,6 +54,7 @@ module Faxin
             folder.state = om
             if folder.save
               new_folder = Folder.find(folder.id)
+              new_folder.client_id = item["client_id"].to_i
               temp << new_folder
             else
               count += 1
@@ -66,6 +67,7 @@ module Faxin
               folder.name = item["name"]
               folder.state = "M"
               if folder.save
+                folder.client_id = item["client_id"].to_i
                 temp << folder
               else
                 count += 1
@@ -80,6 +82,7 @@ module Faxin
               folder.visible = false
               folder.state = "D"
               if folder.save
+                folder.client_id = item["client_id"].to_i
                 temp << folder
               else
                 count += 1
@@ -175,6 +178,7 @@ module Faxin
             fav = Favorite.new(item.merge({ user_id: user.id}))
             if fav.save
               new_fav = Favorite.find(fav.id)
+              new_fav.client_id = item["client_id"].to_i
               temp << new_fav
             else
               
@@ -186,6 +190,7 @@ module Faxin
             # 更新
             favorite = user.favorites.where({:id => item['id'], :folder_id => item[:folder_id]}).first
             if ( favorite && favorite.update_attributes(item.delete(:id)) )
+              favorite.client_id = item["client_id"].to_i
               temp << favorite
             else
               # 更新出错
@@ -202,6 +207,7 @@ module Faxin
             # 删除
             favorite = user.favorites.where({:id => item['id'], :folder_id => item[:folder_id]}).first
             if (favorite && favorite.update_attribute(:visible, false))
+              favorite.client_id = item["client_id"].to_i
               temp << favorite
             else
               
