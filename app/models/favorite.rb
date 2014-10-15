@@ -5,7 +5,7 @@ class Favorite < ActiveRecord::Base
   belongs_to :folder
   belongs_to :user
   
-  attr_accessor :client_id
+  attr_accessor :client_id, :client_folder_id
   
   def as_json(options)
     {
@@ -19,6 +19,7 @@ class Favorite < ActiveRecord::Base
       user_email: self.user.try(:email),
       folder_id: self.folder.id,
       client_id: self.client_id,
+      client_folder_id: self.client_folder_id,
       law_type: {
         id: self.law_type_id,
         name: self.law_type_name
