@@ -47,7 +47,10 @@ class Favorite < ActiveRecord::Base
   end
   
   def favorited_date
-    self.favorited_at.strftime('%Y-%m-%d %H:%M:%S')
+    if self.favorited_at.blank?
+      return ""
+    end
+    return self.favorited_at.strftime('%Y-%m-%d %H:%M:%S')
   end
   
   def law_type_name
