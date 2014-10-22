@@ -28,7 +28,7 @@ class Favorite < ActiveRecord::Base
     }
   end
   
-  after_create :add_version
+  after_save :add_version
   def add_version
     self.class.increment_counter(:version, self.id) if self.visible == true
   end
