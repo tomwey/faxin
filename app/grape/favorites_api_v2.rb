@@ -168,6 +168,9 @@ module Faxin
       end
       
       post '/favorites' do
+        # 1,认证是否登录
+        user = authenticate!
+        
         array = JSON.parse(params[:data].first)
         count = 0
         errors = []
