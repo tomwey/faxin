@@ -20,6 +20,7 @@ class Favorite < ActiveRecord::Base
       folder_id: self.folder.id,
       client_id: self.client_id,
       client_folder_id: self.client_folder_id,
+      version: self.version
       law_type: {
         id: self.law_type_id,
         name: self.law_type_name
