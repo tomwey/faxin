@@ -96,6 +96,23 @@ module Faxin
         if count > 0
           { code: 20001, message: '同步失败' }
         else
+          version = FavoriteVersion.find_by_user_id(user.id)
+          if version.blank?
+            version = FavoriteVersion.new
+            version.folder_version = 0
+            version.user_id = user.id
+            version.save!
+          end
+          
+          v = version.folder_version
+          temp.each do |folder|
+            folder.version = v + 1
+            folder.save!
+          end
+          
+          version.folder_version = v + 1
+          version.save!
+          
           { code: 0, message: 'ok', data: temp }
         end
         
@@ -236,6 +253,24 @@ module Faxin
         if count > 0
           { code: 20001, message: '同步失败' }
         else
+          
+          version = FavoriteVersion.find_by_user_id(user.id)
+          if version.blank?
+            version = FavoriteVersion.new
+            version.version = 0
+            version.user_id = user.id
+            version.save!
+          end
+          
+          v = version.version
+          temp.each do |item|
+            item.version = v + 1
+            item.save!
+          end
+          
+          version.version = v + 1
+          version.save!
+          
           { code: 0, message: 'ok', data: temp }
         end
         

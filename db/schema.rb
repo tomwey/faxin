@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141013152316) do
+ActiveRecord::Schema.define(:version => 20141023131054) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -98,6 +98,16 @@ ActiveRecord::Schema.define(:version => 20141013152316) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  create_table "favorite_versions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "folder_version", :default => 0
+    t.integer  "version",        :default => 0
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+  end
+
+  add_index "favorite_versions", ["user_id"], :name => "index_favorite_versions_on_user_id"
 
   create_table "favorites", :force => true do |t|
     t.text     "content"
