@@ -85,23 +85,23 @@ module Faxin
           @user.registered_os = os_name
           @user.ensure_private_token!
           
+          # 只要注册成功就送
+          @user.update_vip_status(2);
+          
           # 如果传了邀请码，那么尝试激活邀请
-          if params[:code]
+          if params[:code].blank?
             invite = Invite.find_by_invitee_email_and_code(params[:email], params[:code])
             if invite and not invite.is_actived
               Invite.transaction do
                 if invite.user
                   invite.update_attribute("is_actived", true)
-          
                    # 送给邀请者1个月vip数据使用
                    invite.user.update_vip_status(2)
-                   # 送自己一个月
-                   @user.update_vip_status(2)
                end # end if
               end # end transaction
             end # end if
           else
-            @user.update_vip_status(2)
+            # @user.update_vip_status(2)
           end # end if
           
           # 发欢迎邮件
