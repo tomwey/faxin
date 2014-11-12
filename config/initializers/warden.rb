@@ -17,7 +17,6 @@ Warden::Strategies.add(:password) do
   def authenticate!
     user = User.find_by_email(params['email'])
     if user && user.authenticate(params['password'])
-      puts user.email + ' -- '
       success! user
     else
       fail!("用户名或密码不正确")

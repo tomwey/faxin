@@ -124,9 +124,9 @@ module Faxin
           return render_error_json_no_data(1004, '登录的邮箱不存在')
         end
         
-        user = warden.authenticate(:password)
-        puts user.email + ' ' + params[:email]
-        if user
+        if user.authenticate(params[:password])
+        # user = warden.authenticate(:password)
+        # if user
           # 记录登录信息
           user.last_logined_os = os_name
           user.last_logined_at = Time.zone.now
