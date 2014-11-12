@@ -125,7 +125,7 @@ module Faxin
         end
         
         user = warden.authenticate(:password)
-        puts user.email
+        puts user.email + ' ' + params[:email]
         if user
           # 记录登录信息
           user.last_logined_os = os_name
