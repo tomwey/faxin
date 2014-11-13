@@ -90,7 +90,7 @@ module Faxin
           @user.update_vip_status(reg_month);
           
           # 如果传了邀请码，那么尝试激活邀请
-          if params[:code].blank?
+          if params[:code].present?
             invite = Invite.find_by_invitee_email_and_code(params[:email], params[:code])
             if invite and not invite.is_actived
               Invite.transaction do
