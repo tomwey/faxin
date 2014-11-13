@@ -86,7 +86,8 @@ module Faxin
           @user.ensure_private_token!
           
           # 只要注册成功就送
-          @user.update_vip_status(2);
+          reg_month = SiteConfig.register_month_count.blank? ? 2 : SiteConfig.register_month_count.to_i
+          @user.update_vip_status(reg_month);
           
           # 如果传了邀请码，那么尝试激活邀请
           if params[:code].blank?
@@ -95,8 +96,14 @@ module Faxin
               Invite.transaction do
                 if invite.user
                   invite.update_attribute("is_actived", true)
-                   # 送给邀请者1个月vip数据使用
-                   invite.user.update_vip_status(2)
+                  
+                   # 送给邀请者2个月vip数据使用
+                   month = SiteConfig.inviter_month_count.blank? ? 2 : SiteConfig.inviter_month_count.to_i
+                   invite.user.update_vip_status(month)
+                   
+                   # 送给自己2个月
+                   month = SiteConfig.invitee_month_count.blank? ? 2 : SiteConfig.invitee_month_count.to_i
+                   @user.update_vip_status(month)
                end # end if
               end # end transaction
             end # end if

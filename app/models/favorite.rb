@@ -15,15 +15,15 @@ class Favorite < ActiveRecord::Base
       favorited_at: self.favorited_date,
       favorite_type: self.favorite_type,
       article_id: self.law_article_id,
-      state: self.state,
-      user_email: self.user.try(:email),
+      state: self.state || "",
+      user_email: self.user.try(:email) || "",
       folder_id: self.folder.id,
-      client_id: self.client_id,
-      client_folder_id: self.client_folder_id,
+      client_id: self.client_id || 0,
+      client_folder_id: self.client_folder_id || 0,
       version: self.version,
       law_type: {
         id: self.law_type_id,
-        name: self.law_type_name
+        name: self.law_type_name || ""
       }
     }
   end

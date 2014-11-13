@@ -14,6 +14,7 @@
         <%= link_to("法信", root_path, :class => "brand")%>
         <ul class="nav">
           <li><%= link_to "首页",  root_path %></li>
+          <li><%= link_to "配置",  site_configs_path %></li>
           <li><%= link_to "类别",  law_types_path %></li>
           <li><%= link_to "法律",  laws_path %></li>
           <li><%= link_to "判例",  cases_path %></li>
@@ -21,8 +22,8 @@
           <li><%= link_to "纠错",  reports_path %></li>
           <li><%= link_to "激活码",  active_codes_path %></li>
           <li><%= link_to "购买记录",  purchases_path %></li>
-          <li><%= link_to "用户信息",  users_path %></li>
-          <li><%= link_to "邀请信息",  invites_path %></li>
+          <li><%= link_to "用户",  users_path %></li>
+          <li><%= link_to "邀请",  invites_path %></li>
         </ul>
         <div class="navbar-text pull-right">
           <% if current_user %>

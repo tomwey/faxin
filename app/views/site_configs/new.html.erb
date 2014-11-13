@@ -1,0 +1,24 @@
+<%= form_for(@site_config) do |f| %>
+  <fieldset>
+    <legend>新建配置</legend>
+    
+    <div class="control-group">
+      <%= f.label :key, "配置key", class: "control-label" %>
+      <div class="controls">
+        <%= f.text_field :key %>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <%= f.label :value, "配置值", class: "control-label" %>
+      <div class="controls">
+        <%= f.text_area :value, :class => "span8", :rows => "10" %>
+      </div>
+    </div>
+    
+    <div class="controls">
+      <%= f.submit "保存", :class => "btn btn-primary", 'data-disable-with' => "正在保存..." %>
+      <a href="<%= site_configs_path %>" class="btn">取消</a>
+    </div>
+  </fieldset>
+<% end %>

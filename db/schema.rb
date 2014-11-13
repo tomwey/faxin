@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141023131054) do
+ActiveRecord::Schema.define(:version => 20141113134523) do
 
   create_table "active_codes", :force => true do |t|
     t.string   "code"
@@ -308,6 +308,13 @@ ActiveRecord::Schema.define(:version => 20141023131054) do
 
   add_index "search_histories", ["law_type_id"], :name => "index_search_histories_on_law_type_id"
   add_index "search_histories", ["search_count"], :name => "index_search_histories_on_search_count"
+
+  create_table "site_configs", :force => true do |t|
+    t.string   "key"
+    t.string   "value"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                                  :null => false

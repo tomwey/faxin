@@ -1,0 +1,21 @@
+<% content_for :sitemap do %>
+  <span class="current">站点配置信息</span>
+<% end %>
+
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <th>key</th>
+    <th>value</th>
+    <th></th>
+  </tr>
+
+<% @site_configs.each do |site_config| %>
+  <tr>
+    <td><%= site_config.key %></td>
+    <td><%= site_config.value %></td>
+    <td><%= link_to '', edit_site_config_path(site_config), :class => "icon icon-edit" %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to '新增配置', new_site_config_path , :class => "btn btn-success" %>

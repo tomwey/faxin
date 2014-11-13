@@ -20,6 +20,8 @@ Faxin::Application.routes.draw do
   resources :law_types
   resources :laws
   
+  resources :site_configs
+  
   resources :anyous
   resources :cases
   resources :reports

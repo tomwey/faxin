@@ -13,10 +13,10 @@ class Folder < ActiveRecord::Base
     {
       id: self.id,
       name: self.name || "",
-      user_email: self.user.try(:email),
+      user_email: self.user.try(:email) || "",
       version: self.version,
-      state: self.state,
-      client_id: self.client_id
+      state: self.state || "",
+      client_id: self.client_id || 0
     }
   end
   
